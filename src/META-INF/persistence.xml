@@ -2,7 +2,11 @@
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
   <persistence-unit name="storedbPU" transaction-type="RESOURCE_LOCAL">
     <provider>oracle.toplink.essentials.PersistenceProvider</provider>
-    <class>storeapp.Customer</class>
+    <class>storeapp.entity.Customer</class>
+    <class>storeapp.entity.OrderDetail</class>
+    <class>storeapp.entity.CustomOrder</class>
+    <class>storeapp.entity.Seller</class>
+    <class>storeapp.entity.Product</class>
     <properties>
       <property name="toplink.jdbc.user" value="toor"/>
       <property name="toplink.jdbc.password" value="root"/>

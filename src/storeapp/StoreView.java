@@ -129,7 +129,7 @@ public class StoreView extends FrameView {
 
     @Action
     public void newRecord() {
-        storeapp.Customer c = new storeapp.Customer();
+        storeapp.entity.Customer c = new storeapp.entity.Customer();
         entityManager.persist(c);
         list.add(c);
         int row = list.size()-1;
@@ -141,9 +141,9 @@ public class StoreView extends FrameView {
     @Action(enabledProperty = "recordSelected")
     public void deleteRecord() {
         int[] selected = masterTable.getSelectedRows();
-        List<storeapp.Customer> toRemove = new ArrayList<storeapp.Customer>(selected.length);
+        List<storeapp.entity.Customer> toRemove = new ArrayList<storeapp.entity.Customer>(selected.length);
         for (int idx=0; idx<selected.length; idx++) {
-            storeapp.Customer c = list.get(masterTable.convertRowIndexToModel(selected[idx]));
+            storeapp.entity.Customer c = list.get(masterTable.convertRowIndexToModel(selected[idx]));
             toRemove.add(c);
             entityManager.remove(c);
         }
@@ -168,8 +168,8 @@ public class StoreView extends FrameView {
             } catch (RollbackException rex) {
                 rex.printStackTrace();
                 entityManager.getTransaction().begin();
-                List<storeapp.Customer> merged = new ArrayList<storeapp.Customer>(list.size());
-                for (storeapp.Customer c : list) {
+                List<storeapp.entity.Customer> merged = new ArrayList<storeapp.entity.Customer>(list.size());
+                for (storeapp.entity.Customer c : list) {
                     merged.add(entityManager.merge(c));
                 }
                 list.clear();
@@ -504,7 +504,7 @@ public class StoreView extends FrameView {
     private javax.swing.JLabel ibanLabel;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private java.util.List<storeapp.Customer> list;
+    private java.util.List<storeapp.entity.Customer> list;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
