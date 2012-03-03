@@ -14,6 +14,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import javax.persistence.EntityManager;
@@ -22,7 +23,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.jdesktop.application.Action;
 import storeapp.entity.CustomOrder;
+import storeapp.entity.Product;
 import storeapp.session.UserSessionManager;
+import storeapp.tablemodels.OrderModel;
+import storeapp.tablemodels.OrdersTableModel;
+import storeapp.tablemodels.ProductsTableModel;
 
 /**
  *
@@ -35,24 +40,33 @@ public class StoreView extends javax.swing.JFrame {
     LoginDialog loginDialog;
     AddEdit addEdit;
     private List<CustomOrder> orders;
+    private List<Product> allProducts;
+
+    private OrdersTableModel ordersTableModel = new OrdersTableModel();
+
+    private ProductsTableModel productsTableModel = new ProductsTableModel();
 
     /** Creates new form StoreView */
     public StoreView() {
         initComponents();
         setTitle(APP_NAME);
-
+        Product p = new Product(1, 2, "Sapun", 3.4f, 34.4);
+        entityManager.getTransaction().begin();
+        entityManager.persist(p);
+        entityManager.getTransaction().commit();
         loginDialog = new LoginDialog(this, true);
         loginDialog.addComponentListener(new ComponentAdapter() {
 
             @Override
             public void componentHidden(ComponentEvent e) {
                 fetchCustomerOrdersBySellerId();
+                fetchAllProducts();
             }
-
         });
 
         loginDialog.setEnityManager(entityManager);
         loginDialog.setVisible(true);
+
 
     }
 
@@ -65,12 +79,23 @@ public class StoreView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        addEditButton = new javax.swing.JButton();
+        tabPanel = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         orderTable = new javax.swing.JTable();
-        addEditButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        productsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
+
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getActionMap(StoreView.class, this);
+        addEditButton.setAction(actionMap.get("addEdit")); // NOI18N
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getResourceMap(StoreView.class);
+        addEditButton.setText(resourceMap.getString("addEditButton.text")); // NOI18N
+        addEditButton.setName("addEditButton"); // NOI18N
+
+        tabPanel.setName("tabPanel"); // NOI18N
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
@@ -87,33 +112,44 @@ public class StoreView extends javax.swing.JFrame {
         orderTable.setName("orderTable"); // NOI18N
         jScrollPane1.setViewportView(orderTable);
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getActionMap(StoreView.class, this);
-        addEditButton.setAction(actionMap.get("addEdit")); // NOI18N
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getResourceMap(StoreView.class);
-        addEditButton.setText(resourceMap.getString("addEditButton.text")); // NOI18N
-        addEditButton.setName("addEditButton"); // NOI18N
+        tabPanel.addTab(resourceMap.getString("jScrollPane1.TabConstraints.tabTitle"), jScrollPane1); // NOI18N
+
+        jScrollPane2.setName("jScrollPane2"); // NOI18N
+
+        productsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        productsTable.setName("productsTable"); // NOI18N
+        jScrollPane2.setViewportView(productsTable);
+
+        tabPanel.addTab(resourceMap.getString("jScrollPane2.TabConstraints.tabTitle"), jScrollPane2); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(addEditButton)
-                        .addGap(29, 29, 29))))
+                    .addComponent(addEditButton)
+                    .addComponent(tabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addEditButton))
+                .addComponent(tabPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addEditButton)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -130,33 +166,35 @@ public class StoreView extends javax.swing.JFrame {
             }
         });
     }
-
- 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addEditButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable orderTable;
+    private javax.swing.JTable productsTable;
+    private javax.swing.JTabbedPane tabPanel;
     // End of variables declaration//GEN-END:variables
 
     private void fetchCustomerOrdersBySellerId() {
-            System.out.println("GETTING ALL ORDERS");
         int userId = UserSessionManager.getSingleton().getUserId();
         orders = entityManager.createNamedQuery(CustomOrder.orderDetails).setParameter("userID", userId).getResultList();
-        Vector<String> tableHeaders = new Vector<String>();
-        Vector tableData = new Vector();
-        tableHeaders.add("Order ID");
-        tableHeaders.add("Customer Name");
-        tableHeaders.add("Sum Price:");
-       
-        for (CustomOrder o : orders) {
-            System.out.println(o);
-            Vector<Object> oneRow = new Vector<Object>();
-            oneRow.add(o.getCustomOrderId());
-            oneRow.add(o.getCustomer().getNameCustomer());
-            tableData.add(oneRow);
+        for(CustomOrder o : orders) {
+            ordersTableModel.add(new OrderModel(o.getCustomOrderId(), o.getCustomer().getNameCustomer(), 3.f));
         }
-        orderTable.setModel(new DefaultTableModel(tableData, tableHeaders));
+        
+        orderTable.setModel(ordersTableModel);
 
+    }
+
+    public void fetchAllProducts() {
+        allProducts = entityManager.createNamedQuery(Product.getAll).getResultList();
+  
+        for(Product p : allProducts) {
+           productsTableModel.add(p);
+        }
+
+        productsTable.setModel(productsTableModel);
+       
     }
 
     @Action
