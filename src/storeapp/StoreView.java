@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import org.jdesktop.application.Action;
 import storeapp.entity.CustomOrder;
 import storeapp.session.UserSessionManager;
 
@@ -65,6 +66,7 @@ public class StoreView extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         orderTable = new javax.swing.JTable();
+        addEditButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -84,21 +86,33 @@ public class StoreView extends javax.swing.JFrame {
         orderTable.setName("orderTable"); // NOI18N
         jScrollPane1.setViewportView(orderTable);
 
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getActionMap(StoreView.class, this);
+        addEditButton.setAction(actionMap.get("addEdit")); // NOI18N
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getResourceMap(StoreView.class);
+        addEditButton.setText(resourceMap.getString("addEditButton.text")); // NOI18N
+        addEditButton.setName("addEditButton"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(addEditButton)
+                        .addGap(29, 29, 29))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addEditButton))
         );
 
         pack();
@@ -118,6 +132,7 @@ public class StoreView extends javax.swing.JFrame {
 
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addEditButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable orderTable;
     // End of variables declaration//GEN-END:variables
@@ -141,5 +156,9 @@ public class StoreView extends javax.swing.JFrame {
         }
         orderTable.setModel(new DefaultTableModel(tableData, tableHeaders));
 
+    }
+
+    @Action
+    public void addEdit() {
     }
 }
