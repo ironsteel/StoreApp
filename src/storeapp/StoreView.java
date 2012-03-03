@@ -33,6 +33,7 @@ public class StoreView extends javax.swing.JFrame {
     private static final String APP_NAME = "StoreApp";
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     LoginDialog loginDialog;
+    AddEdit addEdit;
     private List<CustomOrder> orders;
 
     /** Creates new form StoreView */
@@ -160,5 +161,7 @@ public class StoreView extends javax.swing.JFrame {
 
     @Action
     public void addEdit() {
+        addEdit = new AddEdit(this, true);
+        addEdit.setVisible(true);
     }
 }

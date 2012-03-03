@@ -5,6 +5,8 @@
 
 package storeapp.entity;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -18,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -33,6 +36,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Product.findByQuantity", query = "SELECT p FROM Product p WHERE p.quantity = :quantity"),
     @NamedQuery(name = "Product.findByUnitPrice", query = "SELECT p FROM Product p WHERE p.unitPrice = :unitPrice")})
 public class Product implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,7 +79,9 @@ public class Product implements Serializable {
     }
 
     public void setProductId(Integer productId) {
+        Integer oldProductId = this.productId;
         this.productId = productId;
+        changeSupport.firePropertyChange("productId", oldProductId, productId);
     }
 
     public int getInStock() {
@@ -82,7 +89,9 @@ public class Product implements Serializable {
     }
 
     public void setInStock(int inStock) {
+        int oldInStock = this.inStock;
         this.inStock = inStock;
+        changeSupport.firePropertyChange("inStock", oldInStock, inStock);
     }
 
     public String getProductName() {
@@ -90,7 +99,9 @@ public class Product implements Serializable {
     }
 
     public void setProductName(String productName) {
+        String oldProductName = this.productName;
         this.productName = productName;
+        changeSupport.firePropertyChange("productName", oldProductName, productName);
     }
 
     public double getQuantity() {
@@ -98,7 +109,9 @@ public class Product implements Serializable {
     }
 
     public void setQuantity(double quantity) {
+        double oldQuantity = this.quantity;
         this.quantity = quantity;
+        changeSupport.firePropertyChange("quantity", oldQuantity, quantity);
     }
 
     public double getUnitPrice() {
@@ -106,7 +119,9 @@ public class Product implements Serializable {
     }
 
     public void setUnitPrice(double unitPrice) {
+        double oldUnitPrice = this.unitPrice;
         this.unitPrice = unitPrice;
+        changeSupport.firePropertyChange("unitPrice", oldUnitPrice, unitPrice);
     }
 
     public Collection<OrderDetail> getOrderDetailCollection() {
@@ -140,6 +155,14 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return "storeapp.entity.Product[productId=" + productId + "]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
 
 }
