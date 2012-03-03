@@ -27,12 +27,20 @@ import javax.persistence.Table;
 @Table(name = "seller")
 @NamedQueries({
     @NamedQuery(name = "Seller.findAll", query = "SELECT s FROM Seller s"),
+    @NamedQuery(name = "Seller.logIn", query = "SELECT s FROM Seller s where s.nameSeller = :userName AND s.password = :userPassword"),
+    @NamedQuery(name = "Seller.logInManager", query = "SELECT s FROM Seller s where s.nameSeller = :userName AND s.password = :userPassword AND s.isManager = :logInAsManager"),
     @NamedQuery(name = "Seller.findBySellerId", query = "SELECT s FROM Seller s WHERE s.sellerId = :sellerId"),
     @NamedQuery(name = "Seller.findByNameSeller", query = "SELECT s FROM Seller s WHERE s.nameSeller = :nameSeller"),
     @NamedQuery(name = "Seller.findByPassword", query = "SELECT s FROM Seller s WHERE s.password = :password"),
     @NamedQuery(name = "Seller.findBySellerPhone", query = "SELECT s FROM Seller s WHERE s.sellerPhone = :sellerPhone"),
     @NamedQuery(name = "Seller.findByIsManager", query = "SELECT s FROM Seller s WHERE s.isManager = :isManager")})
 public class Seller implements Serializable {
+
+    public static final String logIn = "Seller.logIn";
+    public static final String logInAsManager = "Seller.logInManager";
+
+
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

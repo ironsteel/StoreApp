@@ -16,7 +16,7 @@ public class StoreApp extends SingleFrameApplication {
      * At startup create and show the main frame of the application.
      */
     @Override protected void startup() {
-        show(new StoreView(this));
+        show(new StoreView());
     }
 
     /**
