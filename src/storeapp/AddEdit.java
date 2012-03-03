@@ -13,7 +13,9 @@ package storeapp;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.swing.ComboBoxModel;
+import storeapp.entity.OrderDetail;
 import storeapp.entity.Seller;
+import storeapp.tablemodels.OrderDetailsTableModel;
 
 /**
  *
@@ -22,25 +24,21 @@ import storeapp.entity.Seller;
 public class AddEdit extends javax.swing.JDialog {
 
     public static final String TITLE_EDIT = "Add edit Order";
-    private List<Seller> sellers;
     private String sellersvalue;
+    private List<OrderDetail> orderDetail;
+
+    private OrderDetailsTableModel orderDetailsTableModel;
 
     /** Creates new form AddEddit */
     public AddEdit(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         setTitle(TITLE_EDIT);
+        orderDetailsTableModel = new OrderDetailsTableModel();
         initComponents();
         entityAddEditValues();
     }
 
     private void entityAddEditValues() {
-        sellers = setEntityManager.createNamedQuery("Seller.findAll").getResultList();
-        for (Seller a : sellers) {
-            sellersvalue += a.getNameSeller();
-        }
-        text.setText(sellersvalue);
-        
-
     }
 
     /** This method is called from within the constructor to
@@ -54,33 +52,42 @@ public class AddEdit extends javax.swing.JDialog {
 
         setEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
         jScrollPane1 = new javax.swing.JScrollPane();
-        text = new javax.swing.JTextArea();
+        orderDetailsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
-        text.setColumns(20);
-        text.setRows(5);
-        text.setName("text"); // NOI18N
-        jScrollPane1.setViewportView(text);
+        orderDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        orderDetailsTable.setName("orderDetailsTable"); // NOI18N
+        jScrollPane1.setViewportView(orderDetailsTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(199, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -106,7 +113,18 @@ public class AddEdit extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable orderDetailsTable;
     private javax.persistence.EntityManager setEntityManager;
-    private javax.swing.JTextArea text;
     // End of variables declaration//GEN-END:variables
+
+    void setCustomOrderIdForEdit(Integer customOrderId) {
+        orderDetailsTableModel.clear();
+        int customerOrderId = customOrderId;
+        orderDetail =  setEntityManager.createNamedQuery("OrderDetail.getGatAllByCustomerOrderId").setParameter("custom_order_id", customerOrderId).getResultList();
+        for(OrderDetail od : orderDetail) {
+            orderDetailsTableModel.add(od);
+        }
+
+        orderDetailsTable.setModel(orderDetailsTableModel);
+    }
 }

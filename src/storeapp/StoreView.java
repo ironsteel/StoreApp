@@ -41,9 +41,7 @@ public class StoreView extends javax.swing.JFrame {
     AddEdit addEdit;
     private List<CustomOrder> orders;
     private List<Product> allProducts;
-
     private OrdersTableModel ordersTableModel = new OrdersTableModel();
-
     private ProductsTableModel productsTableModel = new ProductsTableModel();
 
     /** Creates new form StoreView */
@@ -66,7 +64,7 @@ public class StoreView extends javax.swing.JFrame {
 
         loginDialog.setEnityManager(entityManager);
         loginDialog.setVisible(true);
-
+        addEdit = new AddEdit(this, true);
 
     }
 
@@ -178,28 +176,30 @@ public class StoreView extends javax.swing.JFrame {
     private void fetchCustomerOrdersBySellerId() {
         int userId = UserSessionManager.getSingleton().getUserId();
         orders = entityManager.createNamedQuery(CustomOrder.orderDetails).setParameter("userID", userId).getResultList();
-        for(CustomOrder o : orders) {
+        for (CustomOrder o : orders) {
             ordersTableModel.add(new OrderModel(o.getCustomOrderId(), o.getCustomer().getNameCustomer(), 3.f));
         }
-        
+
         orderTable.setModel(ordersTableModel);
 
     }
 
     public void fetchAllProducts() {
         allProducts = entityManager.createNamedQuery(Product.getAll).getResultList();
-  
-        for(Product p : allProducts) {
-           productsTableModel.add(p);
+
+        for (Product p : allProducts) {
+            productsTableModel.add(p);
         }
 
         productsTable.setModel(productsTableModel);
-       
+
     }
 
     @Action
     public void addEdit() {
-        addEdit = new AddEdit(this, true);
+        if (orderTable.getSelectedRowCount() != 0) {
+            addEdit.setCustomOrderIdForEdit(orders.get(orderTable.getSelectedRow()).getCustomOrderId());
+        }
         addEdit.setVisible(true);
     }
 }
