@@ -191,7 +191,7 @@ public class LoginDialog extends javax.swing.JDialog {
         Seller seller = (Seller) enityManager.createNamedQuery(Seller.logIn).setParameter("userName", userName).setParameter("userPassword", password).getSingleResult();
         UserSessionManager.getSingleton().setUserName(seller.getNameSeller());
         UserSessionManager.getSingleton().setUserId(seller.getSellerId());
-        dispose();
+        setVisible(false);
     }
 
     private void doLogInAsManager() throws NoResultException {
@@ -199,6 +199,6 @@ public class LoginDialog extends javax.swing.JDialog {
         UserSessionManager.getSingleton().setUserName(seller.getNameSeller());
         UserSessionManager.getSingleton().setUserId(seller.getSellerId());
         UserSessionManager.getSingleton().setIsManager(true);
-        dispose();
+        setVisible(false);
     }
 }

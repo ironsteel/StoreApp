@@ -8,11 +8,20 @@
  *
  * Created on Mar 3, 2012, 7:01:42 PM
  */
-
 package storeapp;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.List;
+import java.util.Vector;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import storeapp.entity.CustomOrder;
+import storeapp.session.UserSessionManager;
 
 /**
  *
@@ -21,11 +30,9 @@ import javax.persistence.Persistence;
 public class StoreView extends javax.swing.JFrame {
 
     private static final String APP_NAME = "StoreApp";
-
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
-
-
     LoginDialog loginDialog;
+    private List<CustomOrder> orders;
 
     /** Creates new form StoreView */
     public StoreView() {
@@ -33,8 +40,18 @@ public class StoreView extends javax.swing.JFrame {
         setTitle(APP_NAME);
 
         loginDialog = new LoginDialog(this, true);
+        loginDialog.addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                fetchCustomerOrdersBySellerId();
+            }
+
+        });
+
         loginDialog.setEnityManager(entityManager);
         loginDialog.setVisible(true);
+
     }
 
     /** This method is called from within the constructor to
@@ -46,35 +63,83 @@ public class StoreView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        orderTable = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        orderTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        orderTable.setName("orderTable"); // NOI18N
+        jScrollPane1.setViewportView(orderTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-    * @param args the command line arguments
-    */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 new StoreView().setVisible(true);
             }
         });
     }
 
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable orderTable;
     // End of variables declaration//GEN-END:variables
 
+    private void fetchCustomerOrdersBySellerId() {
+            System.out.println("GETTING ALL ORDERS");
+        int userId = UserSessionManager.getSingleton().getUserId();
+        orders = entityManager.createNamedQuery(CustomOrder.orderDetails).setParameter("userID", userId).getResultList();
+        Vector<String> tableHeaders = new Vector<String>();
+        Vector tableData = new Vector();
+        tableHeaders.add("Order ID");
+        tableHeaders.add("Customer Name");
+        tableHeaders.add("Sum Price:");
+       
+        for (CustomOrder o : orders) {
+            System.out.println(o);
+            Vector<Object> oneRow = new Vector<Object>();
+            oneRow.add(o.getCustomOrderId());
+            oneRow.add(o.getCustomer().getNameCustomer());
+            tableData.add(oneRow);
+        }
+        orderTable.setModel(new DefaultTableModel(tableData, tableHeaders));
+
+    }
 }

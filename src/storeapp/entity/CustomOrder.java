@@ -29,8 +29,12 @@ import javax.persistence.Table;
 @Table(name = "custom_order")
 @NamedQueries({
     @NamedQuery(name = "CustomOrder.findAll", query = "SELECT c FROM CustomOrder c"),
+    @NamedQuery(name = "CustomOrder.getOrderDetails", query = "SELECT c FROM CustomOrder c WHERE c.seller.sellerId = :userID"),
     @NamedQuery(name = "CustomOrder.findByCustomOrderId", query = "SELECT c FROM CustomOrder c WHERE c.customOrderId = :customOrderId")})
 public class CustomOrder implements Serializable {
+
+    public static final String orderDetails = "CustomOrder.getOrderDetails";
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
