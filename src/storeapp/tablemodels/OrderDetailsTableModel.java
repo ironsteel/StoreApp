@@ -4,10 +4,15 @@
  */
 package storeapp.tablemodels;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 import storeapp.entity.OrderDetail;
 
@@ -19,11 +24,11 @@ public class OrderDetailsTableModel extends AbstractTableModel {
 
     private Map<Integer, String> columsMap = new HashMap<Integer, String>();
     private List<OrderDetail> contents = new ArrayList<OrderDetail>();
-
+    private String[] petStrings = { "Bird", "Cat", "Dog", "Rabbit", "Pig" };
     public OrderDetailsTableModel() {
         columsMap.put(0, "Order Details Id");
         columsMap.put(1, "Order Quantaty");
-        columsMap.put(2, "Total Price");
+        columsMap.put(2, "total");
         columsMap.put(3, "Product Name");
         columsMap.put(4, "Product Unit Price");
     }
@@ -44,14 +49,20 @@ public class OrderDetailsTableModel extends AbstractTableModel {
         return columsMap.size();
     }
 
-    public Object getValueAt(int row, int column) {
+    public Object getValueAt(final int row, int column) {
         switch (column) {
             case 0:
                 return contents.get(row).getOrderId();
             case 1:
                 return contents.get(row).getOrderQuantity();
             case 2:
-                return contents.get(row).getProduct().getUnitPrice() * contents.get(row).getOrderQuantity();
+                final JComboBox button = new JComboBox(petStrings);
+                button.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								
+							}
+						});
+                return button;
             case 3:
                 return contents.get(row).getProduct().getProductName();
             case 4:

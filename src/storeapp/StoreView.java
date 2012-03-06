@@ -44,6 +44,7 @@ public class StoreView extends javax.swing.JFrame {
     private OrdersTableModel ordersTableModel = new OrdersTableModel();
     private ProductsTableModel productsTableModel = new ProductsTableModel();
 
+
     /** Creates new form StoreView */
     public StoreView() {
         initComponents();
@@ -192,6 +193,7 @@ public class StoreView extends javax.swing.JFrame {
         }
 
         productsTable.setModel(productsTableModel);
+        productsTable.setAutoCreateRowSorter(true);
 
     }
 
