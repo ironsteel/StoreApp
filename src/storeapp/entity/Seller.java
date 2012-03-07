@@ -38,6 +38,7 @@ public class Seller implements Serializable {
 
     public static final String logIn = "Seller.logIn";
     public static final String logInAsManager = "Seller.logInManager";
+    public static final String getAllSellers ="Seller.findAll";
 
 
 
