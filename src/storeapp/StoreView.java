@@ -41,6 +41,8 @@ public class StoreView extends javax.swing.JFrame {
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     LoginDialog loginDialog;
     AddEdit addEdit;
+    AddProductFrame addProductFrame;
+    EditProductFrame editProductFrame;
     private List<CustomOrder> orders;
     private List<Product> allProducts;
     private OrdersTableModel ordersTableModel = new OrdersTableModel();
@@ -52,10 +54,10 @@ public class StoreView extends javax.swing.JFrame {
     public StoreView() {
         initComponents();
         setTitle(APP_NAME);
-        Product p = new Product(1, 2, "Sapun", 3.4f, 34.4);
-        entityManager.getTransaction().begin();
-        entityManager.persist(p);
-        entityManager.getTransaction().commit();
+//        Product p = new Product(1, 2, "Sapun", 3.4f, 34.4);
+//        entityManager.getTransaction().begin();
+//        entityManager.persist(p);
+//        entityManager.getTransaction().commit();
         loginDialog = new LoginDialog(this, true);
         loginDialog.addComponentListener(new ComponentAdapter() {
 
@@ -80,7 +82,8 @@ public class StoreView extends javax.swing.JFrame {
         loginDialog.setEnityManager(entityManager);
         loginDialog.setVisible(true);
         addEdit = new AddEdit(this, true);
-
+        addProductFrame = new AddProductFrame(this, true);
+        editProductFrame = new EditProductFrame(this, true);
     }
 
     /** This method is called from within the constructor to
@@ -103,6 +106,7 @@ public class StoreView extends javax.swing.JFrame {
         productsTable = new javax.swing.JTable();
         editProductButton = new javax.swing.JButton();
         addProductButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jScrollPane3 = new javax.swing.JScrollPane();
         sellerTable = new javax.swing.JTable();
@@ -139,12 +143,12 @@ public class StoreView extends javax.swing.JFrame {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getResourceMap(StoreView.class);
         addOrderButton.setText(resourceMap.getString("addOrderButton.text")); // NOI18N
         addOrderButton.setName("addOrderButton"); // NOI18N
-        addOrderButton.setBounds(350, 160, 118, 30);
+        addOrderButton.setBounds(340, 160, 118, 30);
         LayerOrders.add(addOrderButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         editOrderButton.setText(resourceMap.getString("editOrderButton.text")); // NOI18N
         editOrderButton.setName("editOrderButton"); // NOI18N
-        editOrderButton.setBounds(260, 160, 51, 23);
+        editOrderButton.setBounds(250, 160, 51, 23);
         LayerOrders.add(editOrderButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         tabPanel.addTab(resourceMap.getString("LayerOrders.TabConstraints.tabTitle"), LayerOrders); // NOI18N
@@ -170,15 +174,23 @@ public class StoreView extends javax.swing.JFrame {
         jScrollPane2.setBounds(0, 0, 500, 160);
         LayerProducts.add(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
+        editProductButton.setAction(actionMap.get("EditProductFrameAction")); // NOI18N
         editProductButton.setText(resourceMap.getString("editProductButton.text")); // NOI18N
         editProductButton.setName("editProductButton"); // NOI18N
-        editProductButton.setBounds(390, 170, 51, 23);
+        editProductButton.setBounds(380, 170, 51, 23);
         LayerProducts.add(editProductButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
+        addProductButton.setAction(actionMap.get("AddProductFrame")); // NOI18N
         addProductButton.setText(resourceMap.getString("addProductButton.text")); // NOI18N
         addProductButton.setName("addProductButton"); // NOI18N
         addProductButton.setBounds(300, 170, 51, 23);
         LayerProducts.add(addProductButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jButton1.setAction(actionMap.get("DeleteProduct")); // NOI18N
+        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
+        jButton1.setName("jButton1"); // NOI18N
+        jButton1.setBounds(200, 170, 63, 23);
+        LayerProducts.add(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         tabPanel.addTab(resourceMap.getString("LayerProducts.TabConstraints.tabTitle"), LayerProducts); // NOI18N
 
@@ -209,12 +221,12 @@ public class StoreView extends javax.swing.JFrame {
 
         editSellerButton.setText(resourceMap.getString("editSellerButton.text")); // NOI18N
         editSellerButton.setName("editSellerButton"); // NOI18N
-        editSellerButton.setBounds(390, 180, 51, 23);
+        editSellerButton.setBounds(390, 170, 51, 23);
         jLayeredPane1.add(editSellerButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         addSellerButton.setText(resourceMap.getString("addSellerButton.text")); // NOI18N
         addSellerButton.setName("addSellerButton"); // NOI18N
-        addSellerButton.setBounds(300, 180, 51, 23);
+        addSellerButton.setBounds(310, 170, 51, 23);
         jLayeredPane1.add(addSellerButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         tabPanel.addTab(resourceMap.getString("jLayeredPane1.TabConstraints.tabTitle"), jLayeredPane1); // NOI18N
@@ -258,6 +270,7 @@ public class StoreView extends javax.swing.JFrame {
     private javax.swing.JButton editOrderButton;
     private javax.swing.JButton editProductButton;
     private javax.swing.JButton editSellerButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -307,5 +320,33 @@ public class StoreView extends javax.swing.JFrame {
             addEdit.setCustomOrderIdForEdit(orders.get(orderTable.getSelectedRow()).getCustomOrderId());
         }
         addEdit.setVisible(true);
+    }
+
+    @Action
+    public void AddProductFrame() {
+        addProductFrame.setVisible(true);
+    }
+
+    @Action
+    public void EditProductFrameAction() {
+        if (productsTable.getSelectedRowCount() != 0) {
+           editProductFrame.setProductIdForEdit(allProducts.get(productsTable.getSelectedRow()).getProductId());
+           
+        }
+        editProductFrame.setVisible(true);
+    }
+
+    @Action
+    public void DeleteProduct() {
+         if (productsTable.getSelectedRowCount() != 0) {
+         int idProductForDelete =   allProducts.get(productsTable.getSelectedRow()).getProductId();
+         allProducts = entityManager.createNamedQuery("Product.findByProductId").setParameter("productId", idProductForDelete).getResultList();
+         entityManager.getTransaction().begin();
+         entityManager.remove(allProducts);
+         entityManager.flush();
+         entityManager.getTransaction().commit();
+
+        }
+    
     }
 }

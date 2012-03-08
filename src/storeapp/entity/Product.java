@@ -42,6 +42,7 @@ public class Product implements Serializable {
 
 
     public static final String getAll = "Product.findAll";
+  
 
 
     private static final long serialVersionUID = 1L;
