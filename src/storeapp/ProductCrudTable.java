@@ -282,6 +282,7 @@ public class ProductCrudTable extends JPanel {
             entityManager.remove(p);
         }
         list.removeAll(toRemove);
+        mergeAll();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
@@ -294,19 +295,7 @@ public class ProductCrudTable extends JPanel {
     }//GEN-LAST:event_newButtonActionPerformed
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        try {
-            entityManager.getTransaction().commit();
-            entityManager.getTransaction().begin();
-        } catch (RollbackException rex) {
-            rex.printStackTrace();
-            entityManager.getTransaction().begin();
-            List<storeapp.entity.Product> merged = new ArrayList<storeapp.entity.Product>(list.size());
-            for (storeapp.entity.Product p : list) {
-                merged.add(entityManager.merge(p));
-            }
-            list.clear();
-            list.addAll(merged);
-        }
+       mergeAll();
     }//GEN-LAST:event_saveButtonActionPerformed
     
     
@@ -345,4 +334,19 @@ public class ProductCrudTable extends JPanel {
         });
     }
 
+    public void mergeAll() {
+           try {
+            entityManager.getTransaction().commit();
+            entityManager.getTransaction().begin();
+        } catch (RollbackException rex) {
+            rex.printStackTrace();
+            entityManager.getTransaction().begin();
+            List<storeapp.entity.Product> merged = new ArrayList<storeapp.entity.Product>(list.size());
+            for (storeapp.entity.Product p : list) {
+                merged.add(entityManager.merge(p));
+            }
+            list.clear();
+            list.addAll(merged);
+        }
+    }
 }
