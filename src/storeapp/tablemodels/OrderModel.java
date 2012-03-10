@@ -12,9 +12,9 @@ public class OrderModel {
 
     private int orderId;
     private String customerName;
-    private float sumPrice;
+    private double sumPrice;
 
-    public OrderModel(int orderId, String customerName, float sumPrice) {
+    public OrderModel(int orderId, String customerName, double sumPrice) {
         this.orderId = orderId;
         this.customerName = customerName;
         this.sumPrice = sumPrice;
@@ -39,11 +39,11 @@ public class OrderModel {
         this.orderId = orderId;
     }
 
-    public float getSumPrice() {
+    public double getSumPrice() {
         return sumPrice;
     }
 
-    public void setSumPrice(float sumPrice) {
+    public void setSumPrice(double sumPrice) {
         this.sumPrice = sumPrice;
     }
 }

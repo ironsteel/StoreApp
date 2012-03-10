@@ -14,9 +14,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import org.jdesktop.application.Action;
 import storeapp.entity.CustomOrder;
+import storeapp.entity.OrderDetail;
 import storeapp.entity.Product;
 import storeapp.session.UserSessionManager;
 import storeapp.tablemodels.OrderModel;
@@ -33,8 +36,6 @@ public class StoreView extends javax.swing.JFrame {
     public static final String PRODUCT_TABLE_TITLE = "Product";
     private String SELLER_CRUD_TAB_TITLE = "Seller";
     public static final int READ_ONLY_PRODUCTS_TABLE_INDEX = 1;
-
-
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     private LoginDialog loginDialog;
     private EditOrderDialog editOrderDialog;
@@ -250,8 +251,10 @@ public class StoreView extends javax.swing.JFrame {
     private void fetchCustomerOrdersBySellerId() {
         int userId = UserSessionManager.getSingleton().getUserId();
         orders = entityManager.createNamedQuery(CustomOrder.orderDetails).setParameter("userID", userId).getResultList();
+
         for (CustomOrder o : orders) {
-            ordersTableModel.add(new OrderModel(o.getCustomOrderId(), o.getCustomer().getNameCustomer(), 3.f));
+            double totalPrice = calcualteTotalPriceForOrder(o);
+            ordersTableModel.add(new OrderModel(o.getCustomOrderId(), o.getCustomer().getNameCustomer(), totalPrice));
         }
 
         orderTable.setModel(ordersTableModel);
@@ -272,6 +275,7 @@ public class StoreView extends javax.swing.JFrame {
     @Action
     public void editOrder() {
         if (orderTable.getSelectedRowCount() != 0) {
+            
             editOrderDialog.setCustomOrderIdForEdit(orders.get(orderTable.getSelectedRow()).getCustomOrderId());
         }
         editOrderDialog.setVisible(true);
@@ -279,6 +283,23 @@ public class StoreView extends javax.swing.JFrame {
 
     @Action
     public void addOrder() {
-        throw  new RuntimeException("Not Implemented");
+        throw new RuntimeException("Not Implemented");
+    }
+
+    private double calcualteTotalPriceForOrder(CustomOrder customerOrder) {
+
+        double totalPrice = 0;
+
+        Query q = entityManager.createNamedQuery("OrderDetail.getGatAllByCustomerOrderId");
+        q.setParameter("custom_order_id", customerOrder.getCustomOrderId());
+        List<OrderDetail> orderDetailsList = q.getResultList();
+
+        for (OrderDetail od : orderDetailsList) {
+            double quantaty = od.getOrderQuantity();
+            double productUnitPrice = od.getProduct().getUnitPrice();
+            totalPrice += quantaty * productUnitPrice;
+
+        }
+        return totalPrice;
     }
 }
