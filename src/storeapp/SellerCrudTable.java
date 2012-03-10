@@ -8,7 +8,6 @@
  *
  * Created on Mar 10, 2012, 7:46:28 PM
  */
-
 package storeapp;
 
 import java.awt.EventQueue;
@@ -24,14 +23,14 @@ import javax.swing.JPanel;
  * @author dalev
  */
 public class SellerCrudTable extends JPanel {
-    
+
     public SellerCrudTable() {
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
         }
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -245,7 +244,6 @@ public class SellerCrudTable extends JPanel {
         }
     }// </editor-fold>//GEN-END:initComponents
 
-    
     @SuppressWarnings("unchecked")
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         entityManager.getTransaction().rollback();
@@ -261,40 +259,27 @@ public class SellerCrudTable extends JPanel {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int[] selected = masterTable.getSelectedRows();
         List<storeapp.entity.Seller> toRemove = new ArrayList<storeapp.entity.Seller>(selected.length);
-        for (int idx=0; idx<selected.length; idx++) {
+        for (int idx = 0; idx < selected.length; idx++) {
             storeapp.entity.Seller s = list.get(masterTable.convertRowIndexToModel(selected[idx]));
             toRemove.add(s);
             entityManager.remove(s);
         }
         list.removeAll(toRemove);
+        mergeAll();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         storeapp.entity.Seller s = new storeapp.entity.Seller();
         entityManager.persist(s);
         list.add(s);
-        int row = list.size()-1;
+        int row = list.size() - 1;
         masterTable.setRowSelectionInterval(row, row);
         masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
     }//GEN-LAST:event_newButtonActionPerformed
-    
+
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        try {
-            entityManager.getTransaction().commit();
-            entityManager.getTransaction().begin();
-        } catch (RollbackException rex) {
-            rex.printStackTrace();
-            entityManager.getTransaction().begin();
-            List<storeapp.entity.Seller> merged = new ArrayList<storeapp.entity.Seller>(list.size());
-            for (storeapp.entity.Seller s : list) {
-                merged.add(entityManager.merge(s));
-            }
-            list.clear();
-            list.addAll(merged);
-        }
+        mergeAll();
     }//GEN-LAST:event_saveButtonActionPerformed
-    
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton deleteButton;
     private javax.persistence.EntityManager entityManager;
@@ -315,9 +300,10 @@ public class SellerCrudTable extends JPanel {
     private javax.swing.JLabel sellerPhoneLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-    
+
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 JFrame frame = new JFrame();
                 frame.setContentPane(new SellerCrudTable());
@@ -328,4 +314,19 @@ public class SellerCrudTable extends JPanel {
         });
     }
 
+    public void mergeAll() {
+        try {
+            entityManager.getTransaction().commit();
+            entityManager.getTransaction().begin();
+        } catch (RollbackException rex) {
+            rex.printStackTrace();
+            entityManager.getTransaction().begin();
+            List<storeapp.entity.Seller> merged = new ArrayList<storeapp.entity.Seller>(list.size());
+            for (storeapp.entity.Seller s : list) {
+                merged.add(entityManager.merge(s));
+            }
+            list.clear();
+            list.addAll(merged);
+        }
+    }
 }
