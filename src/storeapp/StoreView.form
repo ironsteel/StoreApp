@@ -84,7 +84,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="305" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="303" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="addOrderButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -148,6 +148,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="viewOrderDetails">
               <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="storeapp.StoreView" id="viewOrderDetails" methodName="viewOrderDetails"/>
+                </Property>
                 <Property name="text" type="java.lang.String" resourceKey="viewOrderDetails.text"/>
                 <Property name="name" type="java.lang.String" value="viewOrderDetails" noResource="true"/>
               </Properties>

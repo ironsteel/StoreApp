@@ -39,7 +39,7 @@ public class StoreView extends javax.swing.JFrame {
     public static final int READ_ONLY_PRODUCTS_TABLE_INDEX = 1;
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     private LoginDialog loginDialog;
-    private EditOrderDialog editOrderDialog;
+    private ViewOrderDetailsDialog editOrderDialog;
     private AddOrderDialog addOrderDialog;
     private List<CustomOrder> orders;
     private List<Product> allProducts;
@@ -74,7 +74,7 @@ public class StoreView extends javax.swing.JFrame {
 
         loginDialog.setEnityManager(entityManager);
         loginDialog.setVisible(true);
-        editOrderDialog = new EditOrderDialog(this, true);
+        editOrderDialog = new ViewOrderDetailsDialog(this, true);
         addOrderDialog = new AddOrderDialog(this, false);
         productCrud = new ProductCrudTable();
         sellerCrud = new SellerCrudTable();
@@ -149,6 +149,7 @@ public class StoreView extends javax.swing.JFrame {
         removeOrderButton.setText(resourceMap.getString("removeOrderButton.text")); // NOI18N
         removeOrderButton.setName("removeOrderButton"); // NOI18N
 
+        viewOrderDetails.setAction(actionMap.get("viewOrderDetails")); // NOI18N
         viewOrderDetails.setText(resourceMap.getString("viewOrderDetails.text")); // NOI18N
         viewOrderDetails.setName("viewOrderDetails"); // NOI18N
 
@@ -292,11 +293,7 @@ public class StoreView extends javax.swing.JFrame {
 
     @Action
     public void editOrder() {
-        if (orderTable.getSelectedRowCount() != 0) {
-            
-            editOrderDialog.setCustomOrderIdForEdit(orders.get(orderTable.getSelectedRow()).getCustomOrderId());
-        }
-        editOrderDialog.setVisible(true);
+
     }
 
     @Action
@@ -304,6 +301,15 @@ public class StoreView extends javax.swing.JFrame {
         addOrderDialog.setEntityManager(entityManager);
         addOrderDialog.initializeData();
         addOrderDialog.setVisible(true);
+    }
+
+    @Action
+    public void viewOrderDetails() {
+        if (orderTable.getSelectedRowCount() != 0) {
+
+            editOrderDialog.setCustomOrderId(orders.get(orderTable.getSelectedRow()).getCustomOrderId());
+        }
+        editOrderDialog.setVisible(true);
     }
 
     private double calcualteTotalPriceForOrder(CustomOrder customerOrder) {
