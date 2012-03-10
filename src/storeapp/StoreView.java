@@ -25,6 +25,7 @@ import storeapp.session.UserSessionManager;
 import storeapp.tablemodels.OrderModel;
 import storeapp.tablemodels.OrdersTableModel;
 import storeapp.tablemodels.ProductsTableModel;
+import sun.awt.AWTAccessor.ComponentAccessor;
 
 /**
  *
@@ -69,12 +70,26 @@ public class StoreView extends javax.swing.JFrame {
             }
         });
 
+
+
         loginDialog.setEnityManager(entityManager);
         loginDialog.setVisible(true);
         editOrderDialog = new EditOrderDialog(this, true);
         addOrderDialog = new AddOrderDialog(this, false);
         productCrud = new ProductCrudTable();
         sellerCrud = new SellerCrudTable();
+
+        addOrderDialog.addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                orders.clear();
+                ordersTableModel.clear();
+                fetchCustomerOrdersBySellerId();
+            }
+
+        });
+
     }
 
     /** This method is called from within the constructor to
@@ -261,7 +276,7 @@ public class StoreView extends javax.swing.JFrame {
         }
 
         orderTable.setModel(ordersTableModel);
-
+        ordersTableModel.fireTableDataChanged();
     }
 
     public void fetchAllProducts() {

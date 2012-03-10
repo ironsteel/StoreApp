@@ -43,12 +43,6 @@ public class AddOrderDialog extends javax.swing.JDialog {
         initComponents();
         orderDetailsTableModel = new OrderDetailsTableModel();
         orderedProductsTable.setModel(orderDetailsTableModel);
-
-    }
-
-    public void initializeData() {
-        populateDataForProductComboBox();
-        populateDataForCustomerComboBox();
         selectProductCombo.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -58,7 +52,15 @@ public class AddOrderDialog extends javax.swing.JDialog {
             }
         });
 
+    }
 
+    public void initializeData() {
+        selectCustomerCombo.removeAllItems();
+        if (selectProductCombo.getItemCount() > 0) {
+            selectProductCombo.removeAllItems();
+        }
+        populateDataForProductComboBox();
+        populateDataForCustomerComboBox();
     }
 
     public void setEntityManager(EntityManager entityManager) {
@@ -66,7 +68,7 @@ public class AddOrderDialog extends javax.swing.JDialog {
     }
 
     private void populateDataForCustomerComboBox() {
-        selectCustomerCombo.removeAllItems();
+
         customerList = entityManager.createNamedQuery(Customer.getAll).getResultList();
         for (Customer c : customerList) {
             selectCustomerCombo.addItem(c.getNameCustomer());
@@ -74,9 +76,6 @@ public class AddOrderDialog extends javax.swing.JDialog {
     }
 
     private void populateDataForProductComboBox() {
-        if (selectProductCombo.getItemCount() > 0) {
-            selectProductCombo.removeAllItems();
-        }
         productList = entityManager.createNamedQuery(Product.getAll).getResultList();
         for (Product p : productList) {
             selectProductCombo.addItem(p.getProductName());
@@ -287,14 +286,6 @@ public class AddOrderDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox selectProductCombo;
     private javax.swing.JTextField totalPriceField;
     // End of variables declaration//GEN-END:variables
-
-    private void initializeDataForTable() {
-        orderDetailsList = entityManager.createNamedQuery(OrderDetail.getAllByCustomerOrderId).setParameter("custom_order_id", 1).getResultList();
-        for (OrderDetail od : orderDetailsList) {
-            orderDetailsTableModel.add(od);
-        }
-
-    }
 
     @Action
     public void onSaveCustomerOrder() {
