@@ -15,9 +15,12 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.jdesktop.application.Action;
+import storeapp.entity.CustomOrder;
 import storeapp.entity.Customer;
 import storeapp.entity.OrderDetail;
 import storeapp.entity.Product;
+import storeapp.entity.Seller;
+import storeapp.session.UserSessionManager;
 import storeapp.tablemodels.OrderDetailsTableModel;
 
 /**
@@ -31,7 +34,8 @@ public class AddOrderDialog extends javax.swing.JDialog {
     private List<Customer> customerList;
     private List<OrderDetail> orderDetailsList;
     private OrderDetailsTableModel orderDetailsTableModel;
-
+    private boolean customerOrderIsCreated = false;
+    private CustomOrder newCustomOrder;
 
     /** Creates new form AddOrderDialog */
     public AddOrderDialog(java.awt.Frame parent, boolean modal) {
@@ -39,7 +43,7 @@ public class AddOrderDialog extends javax.swing.JDialog {
         initComponents();
         orderDetailsTableModel = new OrderDetailsTableModel();
         orderedProductsTable.setModel(orderDetailsTableModel);
-        
+
     }
 
     public void initializeData() {
@@ -53,7 +57,7 @@ public class AddOrderDialog extends javax.swing.JDialog {
                 productQuantatyInStock.setText(String.valueOf(p.getInStock()));
             }
         });
-    
+
 
     }
 
@@ -62,6 +66,7 @@ public class AddOrderDialog extends javax.swing.JDialog {
     }
 
     private void populateDataForCustomerComboBox() {
+        selectCustomerCombo.removeAllItems();
         customerList = entityManager.createNamedQuery(Customer.getAll).getResultList();
         for (Customer c : customerList) {
             selectCustomerCombo.addItem(c.getNameCustomer());
@@ -69,6 +74,9 @@ public class AddOrderDialog extends javax.swing.JDialog {
     }
 
     private void populateDataForProductComboBox() {
+        if (selectProductCombo.getItemCount() > 0) {
+            selectProductCombo.removeAllItems();
+        }
         productList = entityManager.createNamedQuery(Product.getAll).getResultList();
         for (Product p : productList) {
             selectProductCombo.addItem(p.getProductName());
@@ -104,6 +112,7 @@ public class AddOrderDialog extends javax.swing.JDialog {
         addToOrderButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         totalPriceField = new javax.swing.JTextField();
+        saveAndCloseButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -156,6 +165,7 @@ public class AddOrderDialog extends javax.swing.JDialog {
         orderedQuantatyLabel.setName("orderedQuantatyLabel"); // NOI18N
 
         orderedQuantatyField.setText(resourceMap.getString("orderedQuantatyField.text")); // NOI18N
+        orderedQuantatyField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         orderedQuantatyField.setName("orderedQuantatyField"); // NOI18N
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getActionMap(AddOrderDialog.class, this);
@@ -169,6 +179,10 @@ public class AddOrderDialog extends javax.swing.JDialog {
         totalPriceField.setText(resourceMap.getString("totalPriceField.text")); // NOI18N
         totalPriceField.setName("totalPriceField"); // NOI18N
 
+        saveAndCloseButton.setAction(actionMap.get("onSaveCustomerOrder")); // NOI18N
+        saveAndCloseButton.setText(resourceMap.getString("saveAndCloseButton.text")); // NOI18N
+        saveAndCloseButton.setName("saveAndCloseButton"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -178,36 +192,40 @@ public class AddOrderDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(selectProductCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(selectCustomerLabel)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(selectCustomerCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addComponent(productUnitPriceLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(productUnitPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(productQuantatyInStock, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(orderedQuantatyLabel)
-                                .addGap(10, 10, 10)
-                                .addComponent(orderedQuantatyField, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(addToOrderButton))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addGap(361, 361, 361)))
+                                .addGap(361, 361, 361))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(selectProductCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(selectCustomerLabel)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(selectCustomerCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(productUnitPriceLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(productUnitPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel3))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(orderedQuantatyLabel)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(orderedQuantatyField, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(addToOrderButton)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(productQuantatyInStock, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(saveAndCloseButton)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(totalPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -240,7 +258,8 @@ public class AddOrderDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(totalPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(totalPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveAndCloseButton)))
         );
 
         pack();
@@ -249,7 +268,6 @@ public class AddOrderDialog extends javax.swing.JDialog {
     private void productQuantatyInStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productQuantatyInStockActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_productQuantatyInStockActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addToOrderButton;
     private javax.swing.JLabel jLabel1;
@@ -263,6 +281,7 @@ public class AddOrderDialog extends javax.swing.JDialog {
     private javax.swing.JTextField productQuantatyInStock;
     private javax.swing.JTextField productUnitPriceField;
     private javax.swing.JLabel productUnitPriceLabel;
+    private javax.swing.JButton saveAndCloseButton;
     private javax.swing.JComboBox selectCustomerCombo;
     private javax.swing.JLabel selectCustomerLabel;
     private javax.swing.JComboBox selectProductCombo;
@@ -277,10 +296,59 @@ public class AddOrderDialog extends javax.swing.JDialog {
 
     }
 
+    @Action
+    public void onSaveCustomerOrder() {
+        customerOrderIsCreated = false;
+        orderDetailsTableModel.clear();
+        orderDetailsTableModel.fireTableDataChanged();
+
+        customerList.clear();
+        productList.clear();
+        setVisible(false);
+    }
 
     @Action
     public void onAddOrder() {
+        if (orderedQuantatyField.getText().isEmpty()) {
+            return;
+        }
+        createCustomerOrderIfNotExists();
+
+        String quantaty = orderedQuantatyField.getText().trim();
+
+        Product p = productList.get(selectProductCombo.getSelectedIndex());
+        OrderDetail od = new OrderDetail();
+        od.setOrderQuantity(Double.parseDouble(quantaty));
+        od.setProduct(p);
+        od.setCustomOrder(newCustomOrder);
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(od);
+        entityManager.getTransaction().commit();
+        orderDetailsTableModel.add(od);
+        orderDetailsTableModel.fireTableDataChanged();
+        orderedQuantatyField.setText("");
+    }
+
+    private void createCustomerOrderIfNotExists() {
+        if (!customerOrderIsCreated) {
+            newCustomOrder = new CustomOrder();
+            newCustomOrder.setCustomer(customerList.get(selectCustomerCombo.getSelectedIndex()));
+            Seller currentSeller = getCurrentLoggedInUser();
+            newCustomOrder.setSeller(currentSeller);
+            persistCustomerOrder(newCustomOrder);
+            customerOrderIsCreated = true;
+        }
 
     }
-    
+
+    private void persistCustomerOrder(CustomOrder co) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(co);
+        entityManager.getTransaction().commit();
+    }
+
+    private Seller getCurrentLoggedInUser() {
+        return entityManager.find(Seller.class, UserSessionManager.getSingleton().getUserId());
+    }
 }
