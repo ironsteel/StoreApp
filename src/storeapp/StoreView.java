@@ -31,6 +31,7 @@ public class StoreView extends javax.swing.JFrame {
 
     private static final String APP_NAME = "StoreApp";
     public static final String PRODUCT_TABLE_TITLE = "Product";
+    private String SELLER_CRUD_TAB_TITLE = "Seller";
     public static final int READ_ONLY_PRODUCTS_TABLE = 1;
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     private LoginDialog loginDialog;
@@ -40,6 +41,7 @@ public class StoreView extends javax.swing.JFrame {
     private OrdersTableModel ordersTableModel = new OrdersTableModel();
     private ProductsTableModel productsTableModel = new ProductsTableModel();
     private ProductCrudTable productCrud;
+    private SellerCrudTable sellerCrud;
 
     /** Creates new form StoreView */
     public StoreView() {
@@ -47,6 +49,7 @@ public class StoreView extends javax.swing.JFrame {
         setTitle(APP_NAME);
         loginDialog = new LoginDialog(this, true);
         loginDialog.addComponentListener(new ComponentAdapter() {
+
 
             @Override
             public void componentHidden(ComponentEvent e) {
@@ -57,6 +60,7 @@ public class StoreView extends javax.swing.JFrame {
                 if (isManager) {
                     tabPanel.removeTabAt(READ_ONLY_PRODUCTS_TABLE);
                     tabPanel.addTab(PRODUCT_TABLE_TITLE, productCrud);
+                    tabPanel.addTab(SELLER_CRUD_TAB_TITLE, sellerCrud);
                 }
             }
         });
@@ -66,6 +70,7 @@ public class StoreView extends javax.swing.JFrame {
         addEdit = new AddEdit(this, true);
 
         productCrud = new ProductCrudTable();
+        sellerCrud = new SellerCrudTable();
     }
 
     /** This method is called from within the constructor to

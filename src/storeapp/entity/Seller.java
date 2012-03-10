@@ -5,6 +5,8 @@
 
 package storeapp.entity;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -18,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -35,6 +38,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Seller.findBySellerPhone", query = "SELECT s FROM Seller s WHERE s.sellerPhone = :sellerPhone"),
     @NamedQuery(name = "Seller.findByIsManager", query = "SELECT s FROM Seller s WHERE s.isManager = :isManager")})
 public class Seller implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     public static final String logIn = "Seller.logIn";
     public static final String logInAsManager = "Seller.logInManager";
@@ -83,7 +88,9 @@ public class Seller implements Serializable {
     }
 
     public void setSellerId(Integer sellerId) {
+        Integer oldSellerId = this.sellerId;
         this.sellerId = sellerId;
+        changeSupport.firePropertyChange("sellerId", oldSellerId, sellerId);
     }
 
     public String getNameSeller() {
@@ -91,7 +98,9 @@ public class Seller implements Serializable {
     }
 
     public void setNameSeller(String nameSeller) {
+        String oldNameSeller = this.nameSeller;
         this.nameSeller = nameSeller;
+        changeSupport.firePropertyChange("nameSeller", oldNameSeller, nameSeller);
     }
 
     public String getPassword() {
@@ -99,7 +108,9 @@ public class Seller implements Serializable {
     }
 
     public void setPassword(String password) {
+        String oldPassword = this.password;
         this.password = password;
+        changeSupport.firePropertyChange("password", oldPassword, password);
     }
 
     public String getSellerPhone() {
@@ -107,7 +118,9 @@ public class Seller implements Serializable {
     }
 
     public void setSellerPhone(String sellerPhone) {
+        String oldSellerPhone = this.sellerPhone;
         this.sellerPhone = sellerPhone;
+        changeSupport.firePropertyChange("sellerPhone", oldSellerPhone, sellerPhone);
     }
 
     public int getIsManager() {
@@ -115,7 +128,9 @@ public class Seller implements Serializable {
     }
 
     public void setIsManager(int isManager) {
+        int oldIsManager = this.isManager;
         this.isManager = isManager;
+        changeSupport.firePropertyChange("isManager", oldIsManager, isManager);
     }
 
     public Collection<CustomOrder> getCustomOrderCollection() {
@@ -149,6 +164,14 @@ public class Seller implements Serializable {
     @Override
     public String toString() {
         return "storeapp.entity.Seller[sellerId=" + sellerId + "]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
 
 }
