@@ -12,15 +12,9 @@ package storeapp;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import org.jdesktop.application.Action;
 import storeapp.entity.CustomOrder;
 import storeapp.entity.Product;
@@ -38,26 +32,22 @@ import storeapp.tablemodels.SellerTableModel;
 public class StoreView extends javax.swing.JFrame {
 
     private static final String APP_NAME = "StoreApp";
+    public static final String PRODUCT_TABLE_TITLE = "Product";
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     LoginDialog loginDialog;
     AddEdit addEdit;
-    AddProductFrame addProductFrame;
-    EditProductFrame editProductFrame;
     private List<CustomOrder> orders;
     private List<Product> allProducts;
     private OrdersTableModel ordersTableModel = new OrdersTableModel();
     private ProductsTableModel productsTableModel = new ProductsTableModel();
     private List<Seller> allSellers;
+    private ProductCrudTable productCrud;
     private SellerTableModel sellerTableModel = new SellerTableModel();
 
     /** Creates new form StoreView */
     public StoreView() {
         initComponents();
         setTitle(APP_NAME);
-//        Product p = new Product(1, 2, "Sapun", 3.4f, 34.4);
-//        entityManager.getTransaction().begin();
-//        entityManager.persist(p);
-//        entityManager.getTransaction().commit();
         loginDialog = new LoginDialog(this, true);
         loginDialog.addComponentListener(new ComponentAdapter() {
 
@@ -70,11 +60,12 @@ public class StoreView extends javax.swing.JFrame {
                 if (isManager) {
                     editProductButton.setVisible(true);
                     addProductButton.setVisible(true);
-
+                    tabPanel.addTab(PRODUCT_TABLE_TITLE, productCrud);
                 } else {
                     editProductButton.setVisible(false);
                     addProductButton.setVisible(false);
                     tabPanel.removeTabAt(2);
+
                 }
             }
         });
@@ -82,8 +73,8 @@ public class StoreView extends javax.swing.JFrame {
         loginDialog.setEnityManager(entityManager);
         loginDialog.setVisible(true);
         addEdit = new AddEdit(this, true);
-        addProductFrame = new AddProductFrame(this, true);
-        editProductFrame = new EditProductFrame(this, true);
+
+        productCrud = new ProductCrudTable();
     }
 
     /** This method is called from within the constructor to
@@ -320,33 +311,5 @@ public class StoreView extends javax.swing.JFrame {
             addEdit.setCustomOrderIdForEdit(orders.get(orderTable.getSelectedRow()).getCustomOrderId());
         }
         addEdit.setVisible(true);
-    }
-
-    @Action
-    public void AddProductFrame() {
-        addProductFrame.setVisible(true);
-    }
-
-    @Action
-    public void EditProductFrameAction() {
-        if (productsTable.getSelectedRowCount() != 0) {
-           editProductFrame.setProductIdForEdit(allProducts.get(productsTable.getSelectedRow()).getProductId());
-           
-        }
-        editProductFrame.setVisible(true);
-    }
-
-    @Action
-    public void DeleteProduct() {
-         if (productsTable.getSelectedRowCount() != 0) {
-         int idProductForDelete =   allProducts.get(productsTable.getSelectedRow()).getProductId();
-         allProducts = entityManager.createNamedQuery("Product.findByProductId").setParameter("productId", idProductForDelete).getResultList();
-         entityManager.getTransaction().begin();
-         entityManager.remove(allProducts);
-         entityManager.flush();
-         entityManager.getTransaction().commit();
-
-        }
-    
     }
 }

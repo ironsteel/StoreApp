@@ -57,11 +57,7 @@ public class OrderDetailsTableModel extends AbstractTableModel {
                 return contents.get(row).getOrderQuantity();
             case 2:
                 final JComboBox button = new JComboBox(petStrings);
-                button.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								
-							}
-						});
+                
                 return button;
             case 3:
                 return contents.get(row).getProduct().getProductName();

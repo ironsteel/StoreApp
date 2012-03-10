@@ -5,11 +5,13 @@
 
 package storeapp.tablemodels;
 
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import org.w3c.dom.css.Rect;
 
 /**
  *
@@ -29,7 +31,7 @@ public class JTableButtonMouseListener extends MouseAdapter {
     if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0) {
       Object value = table.getValueAt(row, column);
       if (value instanceof JComboBox) {
-        ((JComboBox)value).scrollRectToVisible(null);
+        ((JComboBox)value).scrollRectToVisible(new Rectangle(20, 20));
       }
     }
   }
