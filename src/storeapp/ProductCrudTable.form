@@ -69,7 +69,6 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="productIdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="productNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="quantityLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="inStockLabel" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -77,7 +76,6 @@
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="productIdField" alignment="0" pref="315" max="32767" attributes="0"/>
                           <Component id="productNameField" alignment="0" pref="315" max="32767" attributes="0"/>
                           <Component id="quantityField" alignment="0" pref="315" max="32767" attributes="0"/>
                           <Component id="inStockField" alignment="0" pref="315" max="32767" attributes="0"/>
@@ -97,13 +95,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="masterScrollPane" pref="130" max="32767" attributes="0"/>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="productIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="productIdField" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Component id="masterScrollPane" pref="136" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="productNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="productNameField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -148,28 +141,47 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="masterTable">
           <Properties>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="masterTable.columnModel.title1"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="masterTable.columnModel.title2"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="masterTable.columnModel.title3"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="masterTable.columnModel.title4"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
             <Property name="name" type="java.lang.String" value="masterTable" noResource="true"/>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="false">
-              <Subbinding sourcePath="${productId}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="0"/>
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-              </Subbinding>
+            <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="true">
               <Subbinding sourcePath="${productName}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="1"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
               <Subbinding sourcePath="${quantity}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="2"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
               </Subbinding>
               <Subbinding sourcePath="${inStock}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="3"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
               </Subbinding>
               <Subbinding sourcePath="${unitPrice}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="4"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
               </Subbinding>
             </BindingProperty>
@@ -181,12 +193,6 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="productIdLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="productIdLabel.text"/>
-        <Property name="name" type="java.lang.String" value="productIdLabel" noResource="true"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="productNameLabel">
       <Properties>
         <Property name="text" type="java.lang.String" resourceKey="productNameLabel.text"/>
@@ -210,17 +216,6 @@
         <Property name="text" type="java.lang.String" resourceKey="unitPriceLabel.text"/>
         <Property name="name" type="java.lang.String" value="unitPriceLabel" noResource="true"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="productIdField">
-      <Properties>
-        <Property name="name" type="java.lang.String" value="productIdField" noResource="true"/>
-      </Properties>
-      <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.productId}" target="productIdField" targetPath="text" updateStrategy="0" immediately="false">
-          <Property name="incompletePathValue" type="java.lang.String" value="null"/>
-        </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="productIdField" targetPath="enabled" updateStrategy="1" immediately="false"/>
-      </BindingProperties>
     </Component>
     <Component class="javax.swing.JTextField" name="productNameField">
       <Properties>
