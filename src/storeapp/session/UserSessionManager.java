@@ -34,7 +34,7 @@ public class UserSessionManager {
         return instance;
     }
 
-    public boolean isIsManager() {
+    public boolean isCurrentUserManager() {
         return isManager;
     }
 

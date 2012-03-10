@@ -32,7 +32,7 @@ public class StoreView extends javax.swing.JFrame {
     private static final String APP_NAME = "StoreApp";
     public static final String PRODUCT_TABLE_TITLE = "Product";
     private String SELLER_CRUD_TAB_TITLE = "Seller";
-    public static final int READ_ONLY_PRODUCTS_TABLE = 1;
+    public static final int READ_ONLY_PRODUCTS_TABLE_INDEX = 1;
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     private LoginDialog loginDialog;
     private AddEdit addEdit;
@@ -56,9 +56,9 @@ public class StoreView extends javax.swing.JFrame {
                 fetchCustomerOrdersBySellerId();
                 fetchAllProducts();
 
-                boolean isManager = UserSessionManager.getSingleton().isIsManager();
+                boolean isManager = UserSessionManager.getSingleton().isCurrentUserManager();
                 if (isManager) {
-                    tabPanel.removeTabAt(READ_ONLY_PRODUCTS_TABLE);
+                    tabPanel.removeTabAt(READ_ONLY_PRODUCTS_TABLE_INDEX);
                     tabPanel.addTab(PRODUCT_TABLE_TITLE, productCrud);
                     tabPanel.addTab(SELLER_CRUD_TAB_TITLE, sellerCrud);
                 }
