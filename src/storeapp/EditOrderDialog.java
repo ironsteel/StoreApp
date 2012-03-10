@@ -11,11 +11,8 @@
 package storeapp;
 
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.swing.ComboBoxModel;
 import javax.swing.table.TableCellRenderer;
 import storeapp.entity.OrderDetail;
-import storeapp.entity.Seller;
 import storeapp.tablemodels.OrderDetailsTableModel;
 import storeapp.tablemodels.DropDown;
 import storeapp.tablemodels.JTableButtonMouseListener;
@@ -24,7 +21,7 @@ import storeapp.tablemodels.JTableButtonMouseListener;
  *
  * @author dalev
  */
-public class AddEdit extends javax.swing.JDialog {
+public class EditOrderDialog extends javax.swing.JDialog {
 
     public static final String TITLE_EDIT = "Add edit Order";
     private String sellersvalue;
@@ -33,7 +30,7 @@ public class AddEdit extends javax.swing.JDialog {
     private OrderDetailsTableModel orderDetailsTableModel;
 
     /** Creates new form AddEddit */
-    public AddEdit(java.awt.Frame parent, boolean modal) {
+    public EditOrderDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         setTitle(TITLE_EDIT);
         orderDetailsTableModel = new OrderDetailsTableModel();
@@ -107,24 +104,7 @@ public class AddEdit extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                AddEdit dialog = new AddEdit(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox combo;
     private javax.swing.JScrollPane jScrollPane1;

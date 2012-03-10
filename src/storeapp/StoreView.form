@@ -24,7 +24,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="tabPanel" pref="510" max="32767" attributes="0"/>
+              <Component id="tabPanel" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -65,13 +65,15 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" alignment="0" pref="481" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" pref="486" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="addOrderButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="editOrderButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="removeOrderButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="viewOrderDetails" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -88,6 +90,7 @@
                           <Component id="addOrderButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="editOrderButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="removeOrderButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="viewOrderDetails" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -121,12 +124,18 @@
             </Container>
             <Component class="javax.swing.JButton" name="addOrderButton">
               <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="storeapp.StoreView" id="addOrder" methodName="addOrder"/>
+                </Property>
                 <Property name="text" type="java.lang.String" resourceKey="addOrderButton.text"/>
                 <Property name="name" type="java.lang.String" value="addOrderButton" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="editOrderButton">
               <Properties>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="storeapp.StoreView" id="editOrder" methodName="editOrder"/>
+                </Property>
                 <Property name="text" type="java.lang.String" resourceKey="editOrderButton.text"/>
                 <Property name="name" type="java.lang.String" value="editOrderButton" noResource="true"/>
               </Properties>
@@ -137,16 +146,22 @@
                 <Property name="name" type="java.lang.String" value="removeOrderButton" noResource="true"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JButton" name="viewOrderDetails">
+              <Properties>
+                <Property name="text" type="java.lang.String" resourceKey="viewOrderDetails.text"/>
+                <Property name="name" type="java.lang.String" value="viewOrderDetails" noResource="true"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel1">
+        <Container class="javax.swing.JPanel" name="productsTablePanel">
           <Properties>
-            <Property name="name" type="java.lang.String" value="jPanel1" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="productsTablePanel" noResource="true"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Products">
-                <Property name="tabTitle" type="java.lang.String" resourceKey="jPanel1.TabConstraints.tabTitle"/>
+                <Property name="tabTitle" type="java.lang.String" resourceKey="productsTablePanel.TabConstraints.tabTitle"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -156,7 +171,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="productsTablePanel" pref="481" max="32767" attributes="0"/>
+                      <Component id="productsTableScroll" pref="486" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -165,16 +180,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="productsTablePanel" min="-2" pref="260" max="-2" attributes="0"/>
+                      <Component id="productsTableScroll" min="-2" pref="260" max="-2" attributes="0"/>
                       <EmptySpace pref="74" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JScrollPane" name="productsTablePanel">
+            <Container class="javax.swing.JScrollPane" name="productsTableScroll">
               <Properties>
-                <Property name="name" type="java.lang.String" value="productsTablePanel" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="productsTableScroll" noResource="true"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>

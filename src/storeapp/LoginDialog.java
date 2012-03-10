@@ -32,6 +32,8 @@ public class LoginDialog extends javax.swing.JDialog {
         super(parent, modal);
         setTitle(LOGIN_DIALOG_TITLE);
         initComponents();
+        userNameField.setText("dalev");
+        passwordField.setText("alabala");
     }
 
     public void setEnityManager(EntityManager enityManager) {
@@ -159,24 +161,7 @@ public class LoginDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_logInButtonMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            public void run() {
-                LoginDialog dialog = new LoginDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel errorLabel;
     private javax.swing.JCheckBox logInAsManagerCheckBox;
