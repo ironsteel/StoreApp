@@ -18,12 +18,10 @@ import javax.persistence.Persistence;
 import org.jdesktop.application.Action;
 import storeapp.entity.CustomOrder;
 import storeapp.entity.Product;
-import storeapp.entity.Seller;
 import storeapp.session.UserSessionManager;
 import storeapp.tablemodels.OrderModel;
 import storeapp.tablemodels.OrdersTableModel;
 import storeapp.tablemodels.ProductsTableModel;
-import storeapp.tablemodels.SellerTableModel;
 
 /**
  *
@@ -33,16 +31,15 @@ public class StoreView extends javax.swing.JFrame {
 
     private static final String APP_NAME = "StoreApp";
     public static final String PRODUCT_TABLE_TITLE = "Product";
+    public static final int READ_ONLY_PRODUCTS_TABLE = 1;
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
-    LoginDialog loginDialog;
-    AddEdit addEdit;
+    private LoginDialog loginDialog;
+    private AddEdit addEdit;
     private List<CustomOrder> orders;
     private List<Product> allProducts;
     private OrdersTableModel ordersTableModel = new OrdersTableModel();
     private ProductsTableModel productsTableModel = new ProductsTableModel();
-    private List<Seller> allSellers;
     private ProductCrudTable productCrud;
-    private SellerTableModel sellerTableModel = new SellerTableModel();
 
     /** Creates new form StoreView */
     public StoreView() {
@@ -55,17 +52,11 @@ public class StoreView extends javax.swing.JFrame {
             public void componentHidden(ComponentEvent e) {
                 fetchCustomerOrdersBySellerId();
                 fetchAllProducts();
-                fretcAllSellers();
+
                 boolean isManager = UserSessionManager.getSingleton().isIsManager();
                 if (isManager) {
-                    editProductButton.setVisible(true);
-                    addProductButton.setVisible(true);
+                    tabPanel.removeTabAt(READ_ONLY_PRODUCTS_TABLE);
                     tabPanel.addTab(PRODUCT_TABLE_TITLE, productCrud);
-                } else {
-                    editProductButton.setVisible(false);
-                    addProductButton.setVisible(false);
-                    tabPanel.removeTabAt(2);
-
                 }
             }
         });
@@ -95,14 +86,6 @@ public class StoreView extends javax.swing.JFrame {
         LayerProducts = new javax.swing.JLayeredPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         productsTable = new javax.swing.JTable();
-        editProductButton = new javax.swing.JButton();
-        addProductButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        sellerTable = new javax.swing.JTable();
-        editSellerButton = new javax.swing.JButton();
-        addSellerButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -139,7 +122,7 @@ public class StoreView extends javax.swing.JFrame {
 
         editOrderButton.setText(resourceMap.getString("editOrderButton.text")); // NOI18N
         editOrderButton.setName("editOrderButton"); // NOI18N
-        editOrderButton.setBounds(250, 160, 51, 23);
+        editOrderButton.setBounds(250, 160, -1, -1);
         LayerOrders.add(editOrderButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         tabPanel.addTab(resourceMap.getString("LayerOrders.TabConstraints.tabTitle"), LayerOrders); // NOI18N
@@ -165,62 +148,7 @@ public class StoreView extends javax.swing.JFrame {
         jScrollPane2.setBounds(0, 0, 500, 160);
         LayerProducts.add(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        editProductButton.setAction(actionMap.get("EditProductFrameAction")); // NOI18N
-        editProductButton.setText(resourceMap.getString("editProductButton.text")); // NOI18N
-        editProductButton.setName("editProductButton"); // NOI18N
-        editProductButton.setBounds(380, 170, 51, 23);
-        LayerProducts.add(editProductButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        addProductButton.setAction(actionMap.get("AddProductFrame")); // NOI18N
-        addProductButton.setText(resourceMap.getString("addProductButton.text")); // NOI18N
-        addProductButton.setName("addProductButton"); // NOI18N
-        addProductButton.setBounds(300, 170, 51, 23);
-        LayerProducts.add(addProductButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        jButton1.setAction(actionMap.get("DeleteProduct")); // NOI18N
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
-        jButton1.setBounds(200, 170, 63, 23);
-        LayerProducts.add(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         tabPanel.addTab(resourceMap.getString("LayerProducts.TabConstraints.tabTitle"), LayerProducts); // NOI18N
-
-        jLayeredPane1.setName("jLayeredPane1"); // NOI18N
-
-        jScrollPane3.setName("jScrollPane3"); // NOI18N
-
-        sellerTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        sellerTable.setName("sellerTable"); // NOI18N
-        jScrollPane3.setViewportView(sellerTable);
-        sellerTable.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("sellerTable.columnModel.title0")); // NOI18N
-        sellerTable.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("sellerTable.columnModel.title1")); // NOI18N
-        sellerTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("sellerTable.columnModel.title2")); // NOI18N
-        sellerTable.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("sellerTable.columnModel.title3")); // NOI18N
-
-        jScrollPane3.setBounds(10, 0, 490, 160);
-        jLayeredPane1.add(jScrollPane3, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        editSellerButton.setText(resourceMap.getString("editSellerButton.text")); // NOI18N
-        editSellerButton.setName("editSellerButton"); // NOI18N
-        editSellerButton.setBounds(390, 170, 51, 23);
-        jLayeredPane1.add(editSellerButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        addSellerButton.setText(resourceMap.getString("addSellerButton.text")); // NOI18N
-        addSellerButton.setName("addSellerButton"); // NOI18N
-        addSellerButton.setBounds(310, 170, 51, 23);
-        jLayeredPane1.add(addSellerButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        tabPanel.addTab(resourceMap.getString("jLayeredPane1.TabConstraints.tabTitle"), jLayeredPane1); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -256,19 +184,11 @@ public class StoreView extends javax.swing.JFrame {
     private javax.swing.JLayeredPane LayerOrders;
     private javax.swing.JLayeredPane LayerProducts;
     private javax.swing.JButton addOrderButton;
-    private javax.swing.JButton addProductButton;
-    private javax.swing.JButton addSellerButton;
     private javax.swing.JButton editOrderButton;
-    private javax.swing.JButton editProductButton;
-    private javax.swing.JButton editSellerButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable orderTable;
     private javax.swing.JTable productsTable;
-    private javax.swing.JTable sellerTable;
     private javax.swing.JTabbedPane tabPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -292,17 +212,6 @@ public class StoreView extends javax.swing.JFrame {
 
         productsTable.setModel(productsTableModel);
         productsTable.setAutoCreateRowSorter(true);
-
-    }
-
-    public void fretcAllSellers() {
-        allSellers = entityManager.createNamedQuery(Seller.getAllSellers).getResultList();
-
-        for (Seller s : allSellers) {
-            sellerTableModel.add(s);
-        }
-        sellerTable.setModel(sellerTableModel);
-
     }
 
     @Action
