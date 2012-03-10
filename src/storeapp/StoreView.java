@@ -33,6 +33,8 @@ public class StoreView extends javax.swing.JFrame {
     public static final String PRODUCT_TABLE_TITLE = "Product";
     private String SELLER_CRUD_TAB_TITLE = "Seller";
     public static final int READ_ONLY_PRODUCTS_TABLE_INDEX = 1;
+
+
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     private LoginDialog loginDialog;
     private AddEdit addEdit;
@@ -49,7 +51,6 @@ public class StoreView extends javax.swing.JFrame {
         setTitle(APP_NAME);
         loginDialog = new LoginDialog(this, true);
         loginDialog.addComponentListener(new ComponentAdapter() {
-
 
             @Override
             public void componentHidden(ComponentEvent e) {
@@ -68,7 +69,6 @@ public class StoreView extends javax.swing.JFrame {
         loginDialog.setEnityManager(entityManager);
         loginDialog.setVisible(true);
         addEdit = new AddEdit(this, true);
-
         productCrud = new ProductCrudTable();
         sellerCrud = new SellerCrudTable();
     }
@@ -83,13 +83,14 @@ public class StoreView extends javax.swing.JFrame {
     private void initComponents() {
 
         tabPanel = new javax.swing.JTabbedPane();
-        LayerOrders = new javax.swing.JLayeredPane();
+        ordersTablePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         orderTable = new javax.swing.JTable();
         addOrderButton = new javax.swing.JButton();
         editOrderButton = new javax.swing.JButton();
-        LayerProducts = new javax.swing.JLayeredPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        removeOrderButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        productsTablePanel = new javax.swing.JScrollPane();
         productsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -97,44 +98,67 @@ public class StoreView extends javax.swing.JFrame {
 
         tabPanel.setName("tabPanel"); // NOI18N
 
-        LayerOrders.setName("LayerOrders"); // NOI18N
+        ordersTablePanel.setName("ordersTablePanel"); // NOI18N
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
         orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         orderTable.setName("orderTable"); // NOI18N
         jScrollPane1.setViewportView(orderTable);
 
-        jScrollPane1.setBounds(0, 0, 500, 150);
-        LayerOrders.add(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getActionMap(StoreView.class, this);
-        addOrderButton.setAction(actionMap.get("addEdit")); // NOI18N
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getResourceMap(StoreView.class);
         addOrderButton.setText(resourceMap.getString("addOrderButton.text")); // NOI18N
         addOrderButton.setName("addOrderButton"); // NOI18N
-        addOrderButton.setBounds(340, 160, 118, 30);
-        LayerOrders.add(addOrderButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         editOrderButton.setText(resourceMap.getString("editOrderButton.text")); // NOI18N
         editOrderButton.setName("editOrderButton"); // NOI18N
-        editOrderButton.setBounds(250, 160, -1, -1);
-        LayerOrders.add(editOrderButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        tabPanel.addTab(resourceMap.getString("LayerOrders.TabConstraints.tabTitle"), LayerOrders); // NOI18N
+        removeOrderButton.setText(resourceMap.getString("removeOrderButton.text")); // NOI18N
+        removeOrderButton.setName("removeOrderButton"); // NOI18N
 
-        LayerProducts.setName("LayerProducts"); // NOI18N
+        javax.swing.GroupLayout ordersTablePanelLayout = new javax.swing.GroupLayout(ordersTablePanel);
+        ordersTablePanel.setLayout(ordersTablePanelLayout);
+        ordersTablePanelLayout.setHorizontalGroup(
+            ordersTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ordersTablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ordersTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                    .addGroup(ordersTablePanelLayout.createSequentialGroup()
+                        .addComponent(addOrderButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(editOrderButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removeOrderButton)))
+                .addContainerGap())
+        );
+        ordersTablePanelLayout.setVerticalGroup(
+            ordersTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ordersTablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(ordersTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addOrderButton)
+                    .addComponent(editOrderButton)
+                    .addComponent(removeOrderButton)))
+        );
 
-        jScrollPane2.setName("jScrollPane2"); // NOI18N
+        tabPanel.addTab(resourceMap.getString("ordersTablePanel.TabConstraints.tabTitle"), ordersTablePanel); // NOI18N
+
+        jPanel1.setName("jPanel1"); // NOI18N
+
+        productsTablePanel.setName("productsTablePanel"); // NOI18N
 
         productsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -148,12 +172,26 @@ public class StoreView extends javax.swing.JFrame {
             }
         ));
         productsTable.setName("productsTable"); // NOI18N
-        jScrollPane2.setViewportView(productsTable);
+        productsTablePanel.setViewportView(productsTable);
 
-        jScrollPane2.setBounds(0, 0, 500, 160);
-        LayerProducts.add(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(productsTablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(productsTablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(74, Short.MAX_VALUE))
+        );
 
-        tabPanel.addTab(resourceMap.getString("LayerProducts.TabConstraints.tabTitle"), LayerProducts); // NOI18N
+        tabPanel.addTab(resourceMap.getString("jPanel1.TabConstraints.tabTitle"), jPanel1); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -167,7 +205,7 @@ public class StoreView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                .addComponent(tabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -186,14 +224,15 @@ public class StoreView extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLayeredPane LayerOrders;
-    private javax.swing.JLayeredPane LayerProducts;
     private javax.swing.JButton addOrderButton;
     private javax.swing.JButton editOrderButton;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable orderTable;
+    private javax.swing.JPanel ordersTablePanel;
     private javax.swing.JTable productsTable;
+    private javax.swing.JScrollPane productsTablePanel;
+    private javax.swing.JButton removeOrderButton;
     private javax.swing.JTabbedPane tabPanel;
     // End of variables declaration//GEN-END:variables
 
