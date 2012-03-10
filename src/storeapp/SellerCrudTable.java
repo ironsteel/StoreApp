@@ -6,7 +6,7 @@
 /*
  * NewMasterDetailForm.java
  *
- * Created on Mar 10, 2012, 6:24:29 PM
+ * Created on Mar 10, 2012, 7:46:28 PM
  */
 
 package storeapp;
@@ -23,9 +23,9 @@ import javax.swing.JPanel;
  *
  * @author dalev
  */
-public class ProductCrudTable extends JPanel {
+public class SellerCrudTable extends JPanel {
     
-    public ProductCrudTable() {
+    public SellerCrudTable() {
         initComponents();
         if (!Beans.isDesignTime()) {
             entityManager.getTransaction().begin();
@@ -42,20 +42,20 @@ public class ProductCrudTable extends JPanel {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getResourceMap(ProductCrudTable.class);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(storeapp.StoreApp.class).getContext().getResourceMap(SellerCrudTable.class);
         entityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory(resourceMap.getString("entityManager.persistenceUnit")).createEntityManager(); // NOI18N
         query = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery(resourceMap.getString("query.query")); // NOI18N
         list = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(query.getResultList());
         masterScrollPane = new javax.swing.JScrollPane();
         masterTable = new javax.swing.JTable();
-        productNameLabel = new javax.swing.JLabel();
-        quantityLabel = new javax.swing.JLabel();
-        inStockLabel = new javax.swing.JLabel();
-        unitPriceLabel = new javax.swing.JLabel();
-        productNameField = new javax.swing.JTextField();
-        quantityField = new javax.swing.JTextField();
-        inStockField = new javax.swing.JTextField();
-        unitPriceField = new javax.swing.JTextField();
+        passwordLabel = new javax.swing.JLabel();
+        sellerPhoneLabel = new javax.swing.JLabel();
+        nameSellerLabel = new javax.swing.JLabel();
+        isManagerLabel = new javax.swing.JLabel();
+        passwordField = new javax.swing.JTextField();
+        sellerPhoneField = new javax.swing.JTextField();
+        nameSellerField = new javax.swing.JTextField();
+        isManagerField = new javax.swing.JTextField();
         saveButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
         newButton = new javax.swing.JButton();
@@ -70,68 +70,64 @@ public class ProductCrudTable extends JPanel {
         masterTable.setName("masterTable"); // NOI18N
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, list, masterTable);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${productName}"));
-        columnBinding.setColumnName("Product Name");
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${password}"));
+        columnBinding.setColumnName("Password");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${quantity}"));
-        columnBinding.setColumnName("Quantity");
-        columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${inStock}"));
-        columnBinding.setColumnName("In Stock");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sellerPhone}"));
+        columnBinding.setColumnName("Seller Phone");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nameSeller}"));
+        columnBinding.setColumnName("Name Seller");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${isManager}"));
+        columnBinding.setColumnName("Is Manager");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${unitPrice}"));
-        columnBinding.setColumnName("Unit Price");
-        columnBinding.setColumnClass(Double.class);
         bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+
         masterScrollPane.setViewportView(masterTable);
-        masterTable.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("masterTable.columnModel.title1")); // NOI18N
-        masterTable.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("masterTable.columnModel.title2")); // NOI18N
-        masterTable.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("masterTable.columnModel.title3")); // NOI18N
-        masterTable.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("masterTable.columnModel.title4")); // NOI18N
 
-        productNameLabel.setText(resourceMap.getString("productNameLabel.text")); // NOI18N
-        productNameLabel.setName("productNameLabel"); // NOI18N
+        passwordLabel.setText(resourceMap.getString("passwordLabel.text")); // NOI18N
+        passwordLabel.setName("passwordLabel"); // NOI18N
 
-        quantityLabel.setText(resourceMap.getString("quantityLabel.text")); // NOI18N
-        quantityLabel.setName("quantityLabel"); // NOI18N
+        sellerPhoneLabel.setText(resourceMap.getString("sellerPhoneLabel.text")); // NOI18N
+        sellerPhoneLabel.setName("sellerPhoneLabel"); // NOI18N
 
-        inStockLabel.setText(resourceMap.getString("inStockLabel.text")); // NOI18N
-        inStockLabel.setName("inStockLabel"); // NOI18N
+        nameSellerLabel.setText(resourceMap.getString("nameSellerLabel.text")); // NOI18N
+        nameSellerLabel.setName("nameSellerLabel"); // NOI18N
 
-        unitPriceLabel.setText(resourceMap.getString("unitPriceLabel.text")); // NOI18N
-        unitPriceLabel.setName("unitPriceLabel"); // NOI18N
+        isManagerLabel.setText(resourceMap.getString("isManagerLabel.text")); // NOI18N
+        isManagerLabel.setName("isManagerLabel"); // NOI18N
 
-        productNameField.setName("productNameField"); // NOI18N
+        passwordField.setName("passwordField"); // NOI18N
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.productName}"), productNameField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.password}"), passwordField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), productNameField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), passwordField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        quantityField.setName("quantityField"); // NOI18N
+        sellerPhoneField.setName("sellerPhoneField"); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.quantity}"), quantityField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.sellerPhone}"), sellerPhoneField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), quantityField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), sellerPhoneField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        inStockField.setName("inStockField"); // NOI18N
+        nameSellerField.setName("nameSellerField"); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.inStock}"), inStockField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nameSeller}"), nameSellerField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), inStockField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), nameSellerField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
-        unitPriceField.setName("unitPriceField"); // NOI18N
+        isManagerField.setName("isManagerField"); // NOI18N
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.unitPrice}"), unitPriceField, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.isManager}"), isManagerField, org.jdesktop.beansbinding.BeanProperty.create("text"));
         binding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(binding);
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), unitPriceField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ, masterTable, org.jdesktop.beansbinding.ELProperty.create("${selectedElement != null}"), isManagerField, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
         bindingGroup.addBinding(binding);
 
         saveButton.setText(resourceMap.getString("saveButton.text")); // NOI18N
@@ -171,19 +167,19 @@ public class ProductCrudTable extends JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(productNameLabel)
-                            .addComponent(quantityLabel)
-                            .addComponent(inStockLabel)
-                            .addComponent(unitPriceLabel))
+                            .addComponent(passwordLabel)
+                            .addComponent(sellerPhoneLabel)
+                            .addComponent(nameSellerLabel)
+                            .addComponent(isManagerLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(productNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                            .addComponent(quantityField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                            .addComponent(inStockField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
-                            .addComponent(unitPriceField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
+                            .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                            .addComponent(sellerPhoneField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                            .addComponent(nameSellerField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                            .addComponent(isManagerField, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)))
+                        .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -193,23 +189,23 @@ public class ProductCrudTable extends JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(productNameLabel)
-                    .addComponent(productNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(masterScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(quantityLabel)
-                    .addComponent(quantityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordLabel)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inStockLabel)
-                    .addComponent(inStockField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(sellerPhoneLabel)
+                    .addComponent(sellerPhoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(unitPriceLabel)
-                    .addComponent(unitPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nameSellerLabel)
+                    .addComponent(nameSellerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(isManagerLabel)
+                    .addComponent(isManagerField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveButton)
@@ -228,16 +224,16 @@ public class ProductCrudTable extends JPanel {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == saveButton) {
-                ProductCrudTable.this.saveButtonActionPerformed(evt);
+                SellerCrudTable.this.saveButtonActionPerformed(evt);
             }
             else if (evt.getSource() == refreshButton) {
-                ProductCrudTable.this.refreshButtonActionPerformed(evt);
+                SellerCrudTable.this.refreshButtonActionPerformed(evt);
             }
             else if (evt.getSource() == newButton) {
-                ProductCrudTable.this.newButtonActionPerformed(evt);
+                SellerCrudTable.this.newButtonActionPerformed(evt);
             }
             else if (evt.getSource() == deleteButton) {
-                ProductCrudTable.this.deleteButtonActionPerformed(evt);
+                SellerCrudTable.this.deleteButtonActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -257,48 +253,59 @@ public class ProductCrudTable extends JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         int[] selected = masterTable.getSelectedRows();
-        List<storeapp.entity.Product> toRemove = new ArrayList<storeapp.entity.Product>(selected.length);
+        List<storeapp.entity.Seller> toRemove = new ArrayList<storeapp.entity.Seller>(selected.length);
         for (int idx=0; idx<selected.length; idx++) {
-            storeapp.entity.Product p = list.get(masterTable.convertRowIndexToModel(selected[idx]));
-            toRemove.add(p);
-            entityManager.remove(p);
+            storeapp.entity.Seller s = list.get(masterTable.convertRowIndexToModel(selected[idx]));
+            toRemove.add(s);
+            entityManager.remove(s);
         }
         list.removeAll(toRemove);
-        mergeAll();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-        storeapp.entity.Product p = new storeapp.entity.Product();
-        entityManager.persist(p);
-        list.add(p);
+        storeapp.entity.Seller s = new storeapp.entity.Seller();
+        entityManager.persist(s);
+        list.add(s);
         int row = list.size()-1;
         masterTable.setRowSelectionInterval(row, row);
         masterTable.scrollRectToVisible(masterTable.getCellRect(row, 0, true));
     }//GEN-LAST:event_newButtonActionPerformed
     
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-       mergeAll();
+        try {
+            entityManager.getTransaction().commit();
+            entityManager.getTransaction().begin();
+        } catch (RollbackException rex) {
+            rex.printStackTrace();
+            entityManager.getTransaction().begin();
+            List<storeapp.entity.Seller> merged = new ArrayList<storeapp.entity.Seller>(list.size());
+            for (storeapp.entity.Seller s : list) {
+                merged.add(entityManager.merge(s));
+            }
+            list.clear();
+            list.addAll(merged);
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton deleteButton;
     private javax.persistence.EntityManager entityManager;
-    private javax.swing.JTextField inStockField;
-    private javax.swing.JLabel inStockLabel;
-    private java.util.List<storeapp.entity.Product> list;
+    private javax.swing.JTextField isManagerField;
+    private javax.swing.JLabel isManagerLabel;
+    private java.util.List<storeapp.entity.Seller> list;
     private javax.swing.JScrollPane masterScrollPane;
     private javax.swing.JTable masterTable;
+    private javax.swing.JTextField nameSellerField;
+    private javax.swing.JLabel nameSellerLabel;
     private javax.swing.JButton newButton;
-    private javax.swing.JTextField productNameField;
-    private javax.swing.JLabel productNameLabel;
-    private javax.swing.JTextField quantityField;
-    private javax.swing.JLabel quantityLabel;
+    private javax.swing.JTextField passwordField;
+    private javax.swing.JLabel passwordLabel;
     private javax.persistence.Query query;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton saveButton;
-    private javax.swing.JTextField unitPriceField;
-    private javax.swing.JLabel unitPriceLabel;
+    private javax.swing.JTextField sellerPhoneField;
+    private javax.swing.JLabel sellerPhoneLabel;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
     
@@ -306,7 +313,7 @@ public class ProductCrudTable extends JPanel {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame();
-                frame.setContentPane(new ProductCrudTable());
+                frame.setContentPane(new SellerCrudTable());
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -314,19 +321,4 @@ public class ProductCrudTable extends JPanel {
         });
     }
 
-    public void mergeAll() {
-           try {
-            entityManager.getTransaction().commit();
-            entityManager.getTransaction().begin();
-        } catch (RollbackException rex) {
-            rex.printStackTrace();
-            entityManager.getTransaction().begin();
-            List<storeapp.entity.Product> merged = new ArrayList<storeapp.entity.Product>(list.size());
-            for (storeapp.entity.Product p : list) {
-                merged.add(entityManager.merge(p));
-            }
-            list.clear();
-            list.addAll(merged);
-        }
-    }
 }

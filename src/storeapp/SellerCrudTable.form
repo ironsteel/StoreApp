@@ -31,7 +31,7 @@
         <Property name="observable" type="boolean" value="true"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;storeapp.entity.Product&gt;"/>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;storeapp.entity.Seller&gt;"/>
         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="2"/>
       </AuxValues>
@@ -69,22 +69,22 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="productNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="quantityLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="inStockLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="unitPriceLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="passwordLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="sellerPhoneLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="nameSellerLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="isManagerLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="productNameField" alignment="0" pref="315" max="32767" attributes="0"/>
-                          <Component id="quantityField" alignment="0" pref="315" max="32767" attributes="0"/>
-                          <Component id="inStockField" alignment="0" pref="315" max="32767" attributes="0"/>
-                          <Component id="unitPriceField" alignment="0" pref="315" max="32767" attributes="0"/>
+                          <Component id="passwordField" alignment="0" pref="315" max="32767" attributes="0"/>
+                          <Component id="sellerPhoneField" alignment="0" pref="315" max="32767" attributes="0"/>
+                          <Component id="nameSellerField" alignment="0" pref="315" max="32767" attributes="0"/>
+                          <Component id="isManagerField" alignment="0" pref="315" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="masterScrollPane" pref="390" max="32767" attributes="0"/>
+                      <Component id="masterScrollPane" pref="382" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -95,26 +95,26 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="masterScrollPane" pref="136" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+              <Component id="masterScrollPane" pref="130" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="productNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="productNameField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="passwordLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="passwordField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="quantityLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="quantityField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="sellerPhoneLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="sellerPhoneField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="inStockLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="inStockField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nameSellerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nameSellerField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="unitPriceLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="unitPriceField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="isManagerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="isManagerField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="1"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -141,48 +141,25 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="masterTable">
           <Properties>
-            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="0">
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title resourceKey="masterTable.columnModel.title1"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title resourceKey="masterTable.columnModel.title2"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title resourceKey="masterTable.columnModel.title3"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title resourceKey="masterTable.columnModel.title4"/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
-              </TableColumnModel>
-            </Property>
             <Property name="name" type="java.lang.String" value="masterTable" noResource="true"/>
-            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
-            </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="true">
-              <Subbinding sourcePath="${productName}">
+            <BindingProperty name="elements" source="list" target="masterTable" targetPath="elements" updateStrategy="0" immediately="false">
+              <Subbinding sourcePath="${password}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="0"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
-              <Subbinding sourcePath="${quantity}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
+              <Subbinding sourcePath="${sellerPhone}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="1"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
               </Subbinding>
-              <Subbinding sourcePath="${inStock}">
+              <Subbinding sourcePath="${nameSeller}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="2"/>
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+              </Subbinding>
+              <Subbinding sourcePath="${isManager}">
+                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN" value="3"/>
                 <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
-              </Subbinding>
-              <Subbinding sourcePath="${unitPrice}">
-                <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Double.class"/>
               </Subbinding>
             </BindingProperty>
           </BindingProperties>
@@ -193,72 +170,72 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="productNameLabel">
+    <Component class="javax.swing.JLabel" name="passwordLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="productNameLabel.text"/>
-        <Property name="name" type="java.lang.String" value="productNameLabel" noResource="true"/>
+        <Property name="text" type="java.lang.String" resourceKey="passwordLabel.text"/>
+        <Property name="name" type="java.lang.String" value="passwordLabel" noResource="true"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="quantityLabel">
+    <Component class="javax.swing.JLabel" name="sellerPhoneLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="quantityLabel.text"/>
-        <Property name="name" type="java.lang.String" value="quantityLabel" noResource="true"/>
+        <Property name="text" type="java.lang.String" resourceKey="sellerPhoneLabel.text"/>
+        <Property name="name" type="java.lang.String" value="sellerPhoneLabel" noResource="true"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="inStockLabel">
+    <Component class="javax.swing.JLabel" name="nameSellerLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="inStockLabel.text"/>
-        <Property name="name" type="java.lang.String" value="inStockLabel" noResource="true"/>
+        <Property name="text" type="java.lang.String" resourceKey="nameSellerLabel.text"/>
+        <Property name="name" type="java.lang.String" value="nameSellerLabel" noResource="true"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="unitPriceLabel">
+    <Component class="javax.swing.JLabel" name="isManagerLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" resourceKey="unitPriceLabel.text"/>
-        <Property name="name" type="java.lang.String" value="unitPriceLabel" noResource="true"/>
+        <Property name="text" type="java.lang.String" resourceKey="isManagerLabel.text"/>
+        <Property name="name" type="java.lang.String" value="isManagerLabel" noResource="true"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="productNameField">
+    <Component class="javax.swing.JTextField" name="passwordField">
       <Properties>
-        <Property name="name" type="java.lang.String" value="productNameField" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="passwordField" noResource="true"/>
       </Properties>
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.productName}" target="productNameField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.password}" target="passwordField" targetPath="text" updateStrategy="0" immediately="false">
           <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="productNameField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="passwordField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
     </Component>
-    <Component class="javax.swing.JTextField" name="quantityField">
+    <Component class="javax.swing.JTextField" name="sellerPhoneField">
       <Properties>
-        <Property name="name" type="java.lang.String" value="quantityField" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="sellerPhoneField" noResource="true"/>
       </Properties>
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.quantity}" target="quantityField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.sellerPhone}" target="sellerPhoneField" targetPath="text" updateStrategy="0" immediately="false">
           <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="quantityField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="sellerPhoneField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
     </Component>
-    <Component class="javax.swing.JTextField" name="inStockField">
+    <Component class="javax.swing.JTextField" name="nameSellerField">
       <Properties>
-        <Property name="name" type="java.lang.String" value="inStockField" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="nameSellerField" noResource="true"/>
       </Properties>
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.inStock}" target="inStockField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.nameSeller}" target="nameSellerField" targetPath="text" updateStrategy="0" immediately="false">
           <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="inStockField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="nameSellerField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
     </Component>
-    <Component class="javax.swing.JTextField" name="unitPriceField">
+    <Component class="javax.swing.JTextField" name="isManagerField">
       <Properties>
-        <Property name="name" type="java.lang.String" value="unitPriceField" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="isManagerField" noResource="true"/>
       </Properties>
       <BindingProperties>
-        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.unitPrice}" target="unitPriceField" targetPath="text" updateStrategy="0" immediately="false">
+        <BindingProperty name="text" source="masterTable" sourcePath="${selectedElement.isManager}" target="isManagerField" targetPath="text" updateStrategy="0" immediately="false">
           <Property name="incompletePathValue" type="java.lang.String" value="null"/>
         </BindingProperty>
-        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="unitPriceField" targetPath="enabled" updateStrategy="1" immediately="false"/>
+        <BindingProperty name="enabled" source="masterTable" sourcePath="${selectedElement != null}" target="isManagerField" targetPath="enabled" updateStrategy="1" immediately="false"/>
       </BindingProperties>
     </Component>
     <Component class="javax.swing.JButton" name="saveButton">
