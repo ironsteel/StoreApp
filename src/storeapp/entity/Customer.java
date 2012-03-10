@@ -32,6 +32,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "Customer.findByPhoneCustomer", query = "SELECT c FROM Customer c WHERE c.phoneCustomer = :phoneCustomer"),
     @NamedQuery(name = "Customer.findByIban", query = "SELECT c FROM Customer c WHERE c.iban = :iban")})
 public class Customer implements Serializable {
+
+    public static final String getAll = "Customer.findAll";
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -37,6 +37,7 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Product.findByUnitPrice", query = "SELECT p FROM Product p WHERE p.unitPrice = :unitPrice")})
 public class Product implements Serializable {
 
+
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 

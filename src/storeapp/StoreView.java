@@ -39,6 +39,7 @@ public class StoreView extends javax.swing.JFrame {
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     private LoginDialog loginDialog;
     private EditOrderDialog editOrderDialog;
+    private AddOrderDialog addOrderDialog;
     private List<CustomOrder> orders;
     private List<Product> allProducts;
     private OrdersTableModel ordersTableModel = new OrdersTableModel();
@@ -55,6 +56,7 @@ public class StoreView extends javax.swing.JFrame {
 
             @Override
             public void componentHidden(ComponentEvent e) {
+              
                 fetchCustomerOrdersBySellerId();
                 fetchAllProducts();
 
@@ -70,6 +72,7 @@ public class StoreView extends javax.swing.JFrame {
         loginDialog.setEnityManager(entityManager);
         loginDialog.setVisible(true);
         editOrderDialog = new EditOrderDialog(this, true);
+        addOrderDialog = new AddOrderDialog(this, false);
         productCrud = new ProductCrudTable();
         sellerCrud = new SellerCrudTable();
     }
@@ -283,7 +286,9 @@ public class StoreView extends javax.swing.JFrame {
 
     @Action
     public void addOrder() {
-        throw new RuntimeException("Not Implemented");
+        addOrderDialog.setEntityManager(entityManager);
+        addOrderDialog.initializeData();
+        addOrderDialog.setVisible(true);
     }
 
     private double calcualteTotalPriceForOrder(CustomOrder customerOrder) {

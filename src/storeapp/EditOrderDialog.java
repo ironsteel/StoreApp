@@ -11,11 +11,8 @@
 package storeapp;
 
 import java.util.List;
-import javax.swing.table.TableCellRenderer;
 import storeapp.entity.OrderDetail;
 import storeapp.tablemodels.OrderDetailsTableModel;
-import storeapp.tablemodels.DropDown;
-import storeapp.tablemodels.JTableButtonMouseListener;
 
 /**
  *
@@ -24,7 +21,6 @@ import storeapp.tablemodels.JTableButtonMouseListener;
 public class EditOrderDialog extends javax.swing.JDialog {
 
     public static final String TITLE_EDIT = "Add edit Order";
-    private String sellersvalue;
     private List<OrderDetail> orderDetail;
 
     private OrderDetailsTableModel orderDetailsTableModel;
@@ -35,12 +31,8 @@ public class EditOrderDialog extends javax.swing.JDialog {
         setTitle(TITLE_EDIT);
         orderDetailsTableModel = new OrderDetailsTableModel();
         initComponents();
-        entityAddEditValues();
     }
 
-    private void entityAddEditValues() {
-        combo.addItem("dalev");
-    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -54,7 +46,6 @@ public class EditOrderDialog extends javax.swing.JDialog {
         setEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
         jScrollPane1 = new javax.swing.JScrollPane();
         orderDetailsTable = new javax.swing.JTable();
-        combo = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -75,30 +66,21 @@ public class EditOrderDialog extends javax.swing.JDialog {
         orderDetailsTable.setName("orderDetailsTable"); // NOI18N
         jScrollPane1.setViewportView(orderDetailsTable);
 
-        combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        combo.setName("combo"); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(253, 253, 253))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
@@ -106,7 +88,6 @@ public class EditOrderDialog extends javax.swing.JDialog {
 
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox combo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable orderDetailsTable;
     private javax.persistence.EntityManager setEntityManager;
@@ -114,19 +95,12 @@ public class EditOrderDialog extends javax.swing.JDialog {
 
     void setCustomOrderIdForEdit(Integer customOrderId) {
         orderDetailsTableModel.clear();
-        
 
         int customerOrderId = customOrderId;
         orderDetail =  setEntityManager.createNamedQuery("OrderDetail.getGatAllByCustomerOrderId").setParameter("custom_order_id", customerOrderId).getResultList();
         for(OrderDetail od : orderDetail) {
             orderDetailsTableModel.add(od);
         }
-
         orderDetailsTable.setModel(orderDetailsTableModel);
-        TableCellRenderer buttonRenderer = new DropDown();
-        
-	orderDetailsTable.getColumn("total").setCellRenderer(buttonRenderer);
-	orderDetailsTable.getColumn("total").setCellRenderer(buttonRenderer);
-        orderDetailsTable.addMouseListener(new JTableButtonMouseListener(orderDetailsTable));
     }
 }

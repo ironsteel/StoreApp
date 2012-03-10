@@ -30,6 +30,10 @@ import javax.persistence.Table;
     @NamedQuery(name = "OrderDetail.getGatAllByCustomerOrderId", query = "SELECT o FROM OrderDetail o WHERE o.customOrder.customOrderId = :custom_order_id"),
     @NamedQuery(name = "OrderDetail.findByOrderQuantity", query = "SELECT o FROM OrderDetail o WHERE o.orderQuantity = :orderQuantity")})
 public class OrderDetail implements Serializable {
+
+    public static final String getAllByCustomerOrderId = "OrderDetail.getGatAllByCustomerOrderId";
+
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
