@@ -36,6 +36,7 @@ public class StoreView extends javax.swing.JFrame {
     private static final String APP_NAME = "StoreApp";
     public static final String PRODUCT_TABLE_TITLE = "Product";
     private String SELLER_CRUD_TAB_TITLE = "Seller";
+    private String CUSTOMER_CRUD_TABLE = "Customers";
     public static final int READ_ONLY_PRODUCTS_TABLE_INDEX = 1;
     private EntityManager entityManager = Persistence.createEntityManagerFactory("storedbPU").createEntityManager();
     private LoginDialog loginDialog;
@@ -47,6 +48,7 @@ public class StoreView extends javax.swing.JFrame {
     private ProductsTableModel productsTableModel = new ProductsTableModel();
     private ProductCrudTable productCrud;
     private SellerCrudTable sellerCrud;
+    private CustomerCrudTable customerCrudTable;
 
     /** Creates new form StoreView */
     public StoreView() {
@@ -57,7 +59,7 @@ public class StoreView extends javax.swing.JFrame {
 
             @Override
             public void componentHidden(ComponentEvent e) {
-              
+
                 fetchCustomerOrdersBySellerId();
                 fetchAllProducts();
 
@@ -66,7 +68,9 @@ public class StoreView extends javax.swing.JFrame {
                     tabPanel.removeTabAt(READ_ONLY_PRODUCTS_TABLE_INDEX);
                     tabPanel.addTab(PRODUCT_TABLE_TITLE, productCrud);
                     tabPanel.addTab(SELLER_CRUD_TAB_TITLE, sellerCrud);
+
                 }
+                tabPanel.addTab(CUSTOMER_CRUD_TABLE, customerCrudTable);
             }
         });
 
@@ -78,6 +82,7 @@ public class StoreView extends javax.swing.JFrame {
         addOrderDialog = new AddOrderDialog(this, false);
         productCrud = new ProductCrudTable();
         sellerCrud = new SellerCrudTable();
+        customerCrudTable = new CustomerCrudTable();
 
         addOrderDialog.addComponentListener(new ComponentAdapter() {
 
@@ -87,7 +92,6 @@ public class StoreView extends javax.swing.JFrame {
                 ordersTableModel.clear();
                 fetchCustomerOrdersBySellerId();
             }
-
         });
 
     }
@@ -306,7 +310,6 @@ public class StoreView extends javax.swing.JFrame {
     @Action
     public void viewOrderDetails() {
         if (orderTable.getSelectedRowCount() != 0) {
-
             editOrderDialog.setCustomOrderId(orders.get(orderTable.getSelectedRow()).getCustomOrderId());
         }
         editOrderDialog.setVisible(true);

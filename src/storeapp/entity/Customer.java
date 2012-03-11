@@ -5,6 +5,8 @@
 
 package storeapp.entity;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -18,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -32,6 +35,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "Customer.findByPhoneCustomer", query = "SELECT c FROM Customer c WHERE c.phoneCustomer = :phoneCustomer"),
     @NamedQuery(name = "Customer.findByIban", query = "SELECT c FROM Customer c WHERE c.iban = :iban")})
 public class Customer implements Serializable {
+    @Transient
+    private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
     public static final String getAll = "Customer.findAll";
 
@@ -70,7 +75,9 @@ public class Customer implements Serializable {
     }
 
     public void setIdCustomer(Integer idCustomer) {
+        Integer oldIdCustomer = this.idCustomer;
         this.idCustomer = idCustomer;
+        changeSupport.firePropertyChange("idCustomer", oldIdCustomer, idCustomer);
     }
 
     public String getNameCustomer() {
@@ -78,7 +85,9 @@ public class Customer implements Serializable {
     }
 
     public void setNameCustomer(String nameCustomer) {
+        String oldNameCustomer = this.nameCustomer;
         this.nameCustomer = nameCustomer;
+        changeSupport.firePropertyChange("nameCustomer", oldNameCustomer, nameCustomer);
     }
 
     public String getPhoneCustomer() {
@@ -86,7 +95,9 @@ public class Customer implements Serializable {
     }
 
     public void setPhoneCustomer(String phoneCustomer) {
+        String oldPhoneCustomer = this.phoneCustomer;
         this.phoneCustomer = phoneCustomer;
+        changeSupport.firePropertyChange("phoneCustomer", oldPhoneCustomer, phoneCustomer);
     }
 
     public String getIban() {
@@ -94,7 +105,9 @@ public class Customer implements Serializable {
     }
 
     public void setIban(String iban) {
+        String oldIban = this.iban;
         this.iban = iban;
+        changeSupport.firePropertyChange("iban", oldIban, iban);
     }
 
     public Collection<CustomOrder> getCustomOrderCollection() {
@@ -128,6 +141,14 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         return "storeapp.entity.Customer[idCustomer=" + idCustomer + "]";
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        changeSupport.removePropertyChangeListener(listener);
     }
 
 }
