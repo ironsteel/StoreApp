@@ -46,9 +46,11 @@ public class AddOrderDialog extends javax.swing.JDialog {
         selectProductCombo.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                Product p = productList.get(selectProductCombo.getSelectedIndex());
-                productUnitPriceField.setText(String.valueOf(p.getUnitPrice()));
-                productQuantatyInStock.setText(String.valueOf(p.getInStock()));
+                if (!productList.isEmpty()) {
+                    Product p = productList.get(selectProductCombo.getSelectedIndex());
+                    productUnitPriceField.setText(String.valueOf(p.getUnitPrice()));
+                    productQuantatyInStock.setText(String.valueOf(p.getInStock()));
+                }
             }
         });
 
