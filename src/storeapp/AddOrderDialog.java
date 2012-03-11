@@ -32,7 +32,6 @@ public class AddOrderDialog extends javax.swing.JDialog {
     private EntityManager entityManager;
     private List<Product> productList;
     private List<Customer> customerList;
-    private List<OrderDetail> orderDetailsList;
     private OrderDetailsTableModel orderDetailsTableModel;
     private boolean customerOrderIsCreated = false;
     private CustomOrder newCustomOrder;

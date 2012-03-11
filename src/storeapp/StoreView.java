@@ -150,6 +150,7 @@ public class StoreView extends javax.swing.JFrame {
         editOrderButton.setText(resourceMap.getString("editOrderButton.text")); // NOI18N
         editOrderButton.setName("editOrderButton"); // NOI18N
 
+        removeOrderButton.setAction(actionMap.get("removeOrder")); // NOI18N
         removeOrderButton.setText(resourceMap.getString("removeOrderButton.text")); // NOI18N
         removeOrderButton.setName("removeOrderButton"); // NOI18N
 
@@ -179,7 +180,7 @@ public class StoreView extends javax.swing.JFrame {
             ordersTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ordersTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(ordersTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addOrderButton)
@@ -297,6 +298,23 @@ public class StoreView extends javax.swing.JFrame {
 
     @Action
     public void editOrder() {
+    }
+
+    @Action
+    public void removeOrder() {
+        if (orderTable.getSelectedRowCount() != 0) {
+            CustomOrder customOrderForRemove = orders.get(orderTable.getSelectedRow());
+            orders.remove(customOrderForRemove);
+            entityManager.getTransaction().begin();
+            entityManager.remove(customOrderForRemove);
+            entityManager.getTransaction().commit();
+
+
+            orders.clear();
+            ordersTableModel.clear();
+            fetchCustomerOrdersBySellerId();
+        }
+
 
     }
 
